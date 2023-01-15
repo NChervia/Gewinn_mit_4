@@ -3,8 +3,7 @@
 #include "Game.h"
 int main()
 {
-    std::cout << "Hello World!\n";
-    std::cout << "Hello World!\n";
+    Game game;
     return 0;
 }
 

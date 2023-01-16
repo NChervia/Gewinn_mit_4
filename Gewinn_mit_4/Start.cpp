@@ -115,10 +115,89 @@ void Start::pollEvents()
 
 void Start::updateMousePositions()
 {
+	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+	
+	if (this->mouseDetect(this->firstButton.getGlobalBounds()))
+	{
+		this->firstButton.setColor(sf::Color(128, 128, 128, 255));
+	}
+	else
+	{
+		this->firstButton.setColor(sf::Color(128, 128, 128, 128));
+	}
+
+	if (this->mouseDetect(this->secondButton.getGlobalBounds()))
+	{
+		this->secondButton.setColor(sf::Color(128, 128, 128, 255));
+	}
+	else
+	{
+		this->secondButton.setColor(sf::Color(128, 128, 128, 128));
+	}
+
+	if (this->mouseDetect(this->thirdButton.getGlobalBounds()))
+	{
+		this->thirdButton.setColor(sf::Color(128, 128, 128, 255));
+	}
+	else
+	{
+		this->thirdButton.setColor(sf::Color(128, 128, 128, 128));
+	}
+
+
+}
+
+bool Start::mouseDetect(sf::FloatRect bounds)
+{
+	if ((this->mousePosWindow.x > bounds.left) && (this->mousePosWindow.x < (bounds.left + bounds.width)) && (this->mousePosWindow.y > bounds.top) && (this->mousePosWindow.y < (bounds.height + bounds.top)))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Start::mousePress()
 {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		sf::FloatRect bound;
+		
+		if (this->mouseDetect(this->firstButton.getGlobalBounds()))
+		{
+			std::cout << "\n\n Start \n\n";
+			this->firstButtonEvent();
+		}
+		if (this->mouseDetect(this->secondButton.getGlobalBounds()))
+		{
+			std::cout << "\n\n Option \n\n";
+			this->secondButtonEvent();
+		}
+		if (this->mouseDetect(this->thirdButton.getGlobalBounds())) 
+		{
+			std::cout << "\n\n Exit \n\n";
+			this->thirdButtonEvent();
+		}
+
+	}
+}
+
+void Start::firstButtonEvent()
+{
+
+}
+
+void Start::secondButtonEvent()
+{
+
+}
+
+void Start::thirdButtonEvent()
+{
+	this->window->close();
 }
 
 void Start::run()
@@ -141,13 +220,17 @@ void Start::render()
 {
 	this->window->clear();
 	this->window->draw(this->Screen);
-	
-	this->window->draw(this->firstButton);
-	this->window->draw(this->secondButton);
-	this->window->draw(this->thirdButton);
-
-	this->window->draw(this->firstButtonText);
-	this->window->draw(this->secondButtonText);
-	this->window->draw(this->thirdButtonText);
+	this->renderButtons(this->window);
 	this->window->display();
+}
+
+void Start::renderButtons(sf::RenderTarget* target)
+{
+	target->draw(this->firstButton);
+	target->draw(this->secondButton);
+	target->draw(this->thirdButton);
+
+	target->draw(this->firstButtonText);
+	target->draw(this->secondButtonText);
+	target->draw(this->thirdButtonText);
 }

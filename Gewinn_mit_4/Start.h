@@ -48,12 +48,18 @@ public:
 	void pollEvents();
 
 	void updateMousePositions();
+	bool mouseDetect(sf::FloatRect bounds);
 	void mousePress();
+
+	void firstButtonEvent();
+	void secondButtonEvent();
+	void thirdButtonEvent();
 
 
 	void run();
 
 	void update();
 	void render();
+	void renderButtons(sf::RenderTarget* target);
 };
 

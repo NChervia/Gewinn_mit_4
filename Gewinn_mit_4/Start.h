@@ -2,9 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+enum StartLevel { BeginButton = 0, StartButton = 1, OptionButton = 3 };
 class Start
 {
 private:
+
+	//Variables
 
 	sf::RenderWindow* window;//Window
 	sf::Event sfmlEvent; //Event
@@ -12,6 +15,7 @@ private:
 
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
+	bool mousePressBool; 
 
 	sf::Texture MenuTexture;
 	sf::Texture ButtonTexture;
@@ -27,6 +31,7 @@ private:
 	sf::Text secondButtonText;
 	sf::Text thirdButtonText;
 	
+	StartLevel startLevel;
 
 	//Private functions
 	void initWindow();
@@ -54,6 +59,7 @@ public:
 	void firstButtonEvent();
 	void secondButtonEvent();
 	void thirdButtonEvent();
+	void changeButtons(StartLevel Level);
 
 
 	void run();

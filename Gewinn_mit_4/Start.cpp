@@ -7,6 +7,8 @@ void Start::initWindow()
 
 void Start::initVariables()
 {
+	this->startLevel = BeginButton;
+	this->mousePressBool = true;
 }
 
 void Start::initSprite()
@@ -164,40 +166,88 @@ void Start::mousePress()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		sf::FloatRect bound;
-		
-		if (this->mouseDetect(this->firstButton.getGlobalBounds()))
+		if ((this->mousePressBool != true) && (this->mouseDetect(this->firstButton.getGlobalBounds())))
 		{
-			std::cout << "\n\n Start \n\n";
+			this->mousePressBool = true;
+			std::cout << "\n\n firstButtonEvent \n\n";
 			this->firstButtonEvent();
 		}
-		if (this->mouseDetect(this->secondButton.getGlobalBounds()))
+		else if ((this->mousePressBool != true) && (this->mouseDetect(this->secondButton.getGlobalBounds())))
 		{
-			std::cout << "\n\n Option \n\n";
+			this->mousePressBool = true;
+			std::cout << "\n\n secondButtonEvent \n\n";
 			this->secondButtonEvent();
 		}
-		if (this->mouseDetect(this->thirdButton.getGlobalBounds())) 
+		else if ((this->mousePressBool != true) && (this->mouseDetect(this->thirdButton.getGlobalBounds())))
 		{
-			std::cout << "\n\n Exit \n\n";
+			this->mousePressBool = true;
+			std::cout << "\n\n thirdButtonEvent \n\n";
 			this->thirdButtonEvent();
 		}
-
+		else
+		{
+			this->mousePressBool = true;
+		}
+	}
+	else
+	{
+		this->mousePressBool = false;
 	}
 }
 
 void Start::firstButtonEvent()
 {
+	if (this->startLevel == BeginButton) this->changeButtons(StartButton);
+	else if (this->startLevel == StartButton) this->window->close();
 
 }
 
 void Start::secondButtonEvent()
 {
-
+	if (this->startLevel == BeginButton)std::cout << "Option\n";
+	else if (this->startLevel == StartButton)this->window->close();
 }
 
 void Start::thirdButtonEvent()
 {
-	this->window->close();
+	if(this->startLevel==BeginButton) this->window->close();
+	else if (this->startLevel == StartButton)this->window->close();
+}
+
+void Start::changeButtons(StartLevel level)
+{
+	if (level == this->startLevel) return;
+	else if (level == BeginButton)
+	{
+		this->startLevel = level;
+
+		this->firstButtonText.setPosition(150.f, 120.f);
+		this->firstButtonText.setString("Start");
+
+		this->secondButtonText.setPosition(140.f, 188.f);
+		this->secondButtonText.setString("Option");
+
+		this->thirdButtonText.setPosition(170.f, 265.f);
+		this->thirdButtonText.setString("Exit");
+
+		return;
+	}
+	else if (level == StartButton)
+	{
+		this->startLevel = level;
+
+		this->firstButtonText.setPosition(150.f, 120.f);
+		this->firstButtonText.setString("Alone");
+
+		this->secondButtonText.setPosition(140.f, 188.f);
+		this->secondButtonText.setString("Server");
+
+		this->thirdButtonText.setPosition(150.f, 265.f);
+		this->thirdButtonText.setString("Client");
+
+		return;
+	}
+
 }
 
 void Start::run()

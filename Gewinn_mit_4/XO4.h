@@ -4,7 +4,7 @@ class XO4
 {
 private:
 
-   char map[7][6];
+   char map[6][7];
 
    void initMap();
 public:
@@ -12,7 +12,13 @@ public:
     XO4();
     ~XO4();
     void out();
-    void shot(char who, int num);
+    bool shot(char who, int num);
+    char testVertical();
+    char testHorizontal();
+    char testAngleL();
+    char testAngleR();
+    char testFull();
+
 
 
 };

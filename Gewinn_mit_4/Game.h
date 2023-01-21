@@ -18,13 +18,18 @@ private:
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 
-	//sf::Texture test;
-
+	
+	sf::Texture textureScreen;
+	sf::Texture textureGameMap;
+	sf::Texture textureGameChipA;
+	sf::Texture textureGameChipB;
 	//sf::Font inkFree;
 	//sf::Text guiText;
 
-	//sf::Sprite XorO;
-
+	sf::Sprite gameMap;
+	sf::Sprite Screen;
+	sf::Sprite gameChipA;
+	sf::Sprite gameChipB;
 	//std::vector <sf::Sprite> GameMap;
 
 
@@ -49,6 +54,7 @@ public:
 	void updateMousePositions();
 	void pollEvents();
 	
+	int mouseTouch();
 
 	int mousePress();
 

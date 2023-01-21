@@ -32,6 +32,13 @@ void XO4::out()
     }
 }
 
+char XO4::getMap(int x, int y)
+{
+    if ((x < 0) && (x > 6))return 0;
+    if ((y < 0) && (y > 7))return 0;
+    return this->map[x][y];
+}
+
 bool XO4::shot(char who, int num)
 {
 

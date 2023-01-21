@@ -5,29 +5,25 @@
 #include "XO4.h"
 int main()
 {
-    // Game game;
+     Game game;
+     game.run();
     //Start  start;
    // start.run();
     XO4 XO;
     int a;
     XO.out();
-    std::cin >> a;
-    XO.shot('X', 2);
-    XO.out();
-    while (a != 13)
+    char sez = '*';
+    while (sez == '*')
     {
         std::cin >> a;
-        if (!XO.shot('O', a)) std::cout << "false";
+        XO.shot('X', a);
         XO.out();
-
-        XO.testFull();
+        sez = XO.testFull();
         std::cin >> a;
-        if (!XO.shot('X', a)) std::cout << "false";
+        XO.shot('O', a);
         XO.out();
-
-        XO.testFull();
+        sez = XO.testFull();
     }
-    std::cin >> a;
    
     return 0;
 }

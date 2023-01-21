@@ -32,6 +32,8 @@ void Start::initSprite()
 	this->thirdButton.setColor(sf::Color(128, 128, 128, 128));
 	this->thirdButton.setPosition(88.f, 273.f);
 	this->thirdButton.scale(0.2f, 0.2f);
+
+
 }
 
 void Start::initTexture()

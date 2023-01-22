@@ -7,7 +7,7 @@ void Game::initWindow()
 
 void Game::initVariables()
 {
-
+	this->gameStep = 0;
 }
 
 void Game::initTexture()
@@ -16,6 +16,7 @@ void Game::initTexture()
 	if (!this->textureScreen.loadFromFile("Texture/Screen.png"))   std::cout << "Error Texture Screen.png\n";
 	if (!this->textureGameChipA.loadFromFile("Texture/ChipA.png"))   std::cout << "Error Texture ChipA.png\n";
 	if (!this->textureGameChipB.loadFromFile("Texture/ChipB.png"))   std::cout << "Error Texture ChipB.png\n";
+	if (!this->textureGameChipZero.loadFromFile("Texture/Zero.png"))   std::cout << "Error Texture Zero.png\n";
 }
 
 void Game::initSprite()
@@ -66,6 +67,40 @@ void Game::initText()
 {
 }
 
+void Game::initChipsXY()
+{
+	int num = 0;
+	float posY = 10;
+	float posX = 10;
+	for (int x = 0; x < 7; x++)
+	{
+		for (int y = 0; y < 7; y++)
+		{
+
+			this->chipsXY[num][0] = posX;
+			this->chipsXY[num][1] = posY;
+			num++;
+			
+			posX += 113;
+		}
+		posY += 109;
+		posX = 10;
+	}
+}
+
+void Game::initGameMapChips()
+{
+	for (int y = 0; y < 49; y++)
+	{
+		this->gameChipB.setPosition(this->chipsXY[y][0], this->chipsXY[y][1]);
+		this->gameMapChips.push_back(gameChipB);
+	}
+	for (int y = 0; y < 7; y++)
+	{
+		this->gameMapChips[y].setTexture(this->textureGameChipZero);
+	}
+}
+
 Game::Game()
 {
 	this->initVariables();
@@ -74,6 +109,8 @@ Game::Game()
 	this->initFonts();
 	this->initText();
 	this->initSprite();
+	this->initChipsXY();
+	this->initGameMapChips();
 }
 
 Game::~Game()
@@ -86,6 +123,33 @@ void Game::updateMousePositions()
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
 }
+
+void Game::updateGameMapChips()
+{
+	int num = 7;
+	for (int x = 0; x < 6; x++)
+	{
+		for (int y = 0; y < 7; y++)
+		{
+			
+			if (this->GameSTD.getMap(x, y) == '*')
+			{
+				this->gameMapChips[num].setTexture(this->textureGameChipZero);
+			}
+			else if (this->GameSTD.getMap(x, y) == 'X')
+			{
+				this->gameMapChips[num].setTexture(this->textureGameChipB);
+			}
+			else if (this->GameSTD.getMap(x, y) == 'O')
+			{
+			this->gameMapChips[num].setTexture(this->textureGameChipA);
+			}
+			num++;
+		}
+		
+	}
+}
+	
 
 void Game::pollEvents()
 {
@@ -113,7 +177,8 @@ int Game::mouseTouch()
 	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
 	if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140))
 	{
-		
+		if (this->gameStep % 2 == 0)this->gameChipB.setTexture(this->textureGameChipB);
+		else this->gameChipB.setTexture(this->textureGameChipA);
 		if (this->mousePosWindow.x > 678)this->gameChipB.setPosition(688.68f, 50.f);
 		else if (this->mousePosWindow.x > 565)this->gameChipB.setPosition(575.68f, 50.f);
 		else if (this->mousePosWindow.x > 452)this->gameChipB.setPosition(462.68f, 50.f);
@@ -124,7 +189,7 @@ int Game::mouseTouch()
 	}
 	else
 	{
-		this->gameChipB.setPosition(122.68f, 228.68f);
+		this->gameChipB.setPosition(800.68f, 800.68f);
 	}
 	return 0;
 }
@@ -134,23 +199,42 @@ int Game::mousePress()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140))
+		
+		if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140) && (this->mousePressBool == false))
 		{
-
-			if (this->mousePosWindow.x > 678)     return 6;
-			else if (this->mousePosWindow.x > 565)return 5;
-			else if (this->mousePosWindow.x > 452)return 4;
-			else if (this->mousePosWindow.x > 339)return 3;
-			else if (this->mousePosWindow.x > 226)return 2;
-			else if (this->mousePosWindow.x > 113)return 1;
-			else if (this->mousePosWindow.x > 0)  return 0;
+			this->mousePressBool = true;
+			int num;
+			if (this->mousePosWindow.x > 678)    num = 6;
+			else if (this->mousePosWindow.x > 565)num = 5;
+			else if (this->mousePosWindow.x > 452)num = 4;
+			else if (this->mousePosWindow.x > 339)num = 3;
+			else if (this->mousePosWindow.x > 226)num = 2;
+			else if (this->mousePosWindow.x > 113)num = 1;
+			else if (this->mousePosWindow.x > 0)  num = 0;
+			
+			if(this->gameStep%2==0)	this->GameSTD.shot('X', num);
+			else this->GameSTD.shot('O', num);
+			this->gameStep++;
+			this->GameSTD.testFull();
 		}
+	}
+	else
+	{
+		this->mousePressBool = false;
 	}
 	return 10;
 }
 
 
 
+
+void Game::renderGameMapChips(sf::RenderTarget* target)
+{
+	for (auto i : this->gameMapChips)
+	{
+		target->draw(i);
+	}
+}
 
 void Game::run()
 {
@@ -167,6 +251,7 @@ void Game::update()
 	this->updateMousePositions();
 	this->mousePress();
 	this->mouseTouch();
+	this->updateGameMapChips();
 
 
 }
@@ -175,11 +260,13 @@ void Game::render()
 {
 
 	this->window->clear();
+
 	this->window->draw(this->Screen);
-	
-	this->window->draw(this->gameChipA);
+	this->renderGameMapChips(window);
+	//this->window->draw(this->gameChipA);
 	this->window->draw(this->gameChipB);
 	this->window->draw(this->gameMap);
+	
 	//this->renderSprite(this->window);
 	this->window->display();
 }

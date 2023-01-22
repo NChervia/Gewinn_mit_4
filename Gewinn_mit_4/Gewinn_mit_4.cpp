@@ -2,14 +2,13 @@
 #include <iostream>
 #include "Game.h"
 #include "Start.h"
-#include "XO4.h"
 int main()
 {
      Game game;
      game.run();
     //Start  start;
    // start.run();
-    XO4 XO;
+    /*XO4 XO;
     int a;
     XO.out();
     char sez = '*';
@@ -23,7 +22,7 @@ int main()
         XO.shot('O', a);
         XO.out();
         sez = XO.testFull();
-    }
+    }*/
    
     return 0;
 }

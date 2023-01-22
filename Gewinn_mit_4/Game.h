@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include "XO4.h"
 
 
 
@@ -10,6 +11,7 @@ class Game
 {
 private:
 
+	XO4 GameSTD;
 
 	sf::RenderWindow* window;//Window
 	sf::Event sfmlEvent; //Event
@@ -17,12 +19,15 @@ private:
 
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
-
+	bool mousePressBool;
+	
+	
 	
 	sf::Texture textureScreen;
 	sf::Texture textureGameMap;
 	sf::Texture textureGameChipA;
 	sf::Texture textureGameChipB;
+	sf::Texture textureGameChipZero;
 	//sf::Font inkFree;
 	//sf::Text guiText;
 
@@ -30,9 +35,11 @@ private:
 	sf::Sprite Screen;
 	sf::Sprite gameChipA;
 	sf::Sprite gameChipB;
-	//std::vector <sf::Sprite> GameMap;
 
+	std::vector <sf::Sprite> gameMapChips;
 
+	float chipsXY[50][2];
+	int gameStep;
 
 	//Private functions
 	void initWindow();
@@ -41,7 +48,8 @@ private:
 	void initTexture();
 	void initFonts();
 	void initText();
-	
+	void initChipsXY();
+	void initGameMapChips(); 
 
 
 public:
@@ -52,15 +60,18 @@ public:
 	//Functions
 
 	void updateMousePositions();
+	void updateGameMapChips();
 	void pollEvents();
 	
 	int mouseTouch();
 
 	int mousePress();
+	void shotGame(int num);
 
 	//void renderSprite(sf::RenderTarget* target);
 	//void renderText(sf::RenderTarget* target);
-	
+	void renderGameMapChips(sf::RenderTarget* target);
+
 	void run();
 
 	void update();

@@ -4,14 +4,16 @@ class XO4
 {
 private:
 
-   char map[6][7];
-   char gameSteps[45];
+    char map[6][7];
+    char gameSteps[45];
+    int GameWon[4][2];
 
-   void initMap();
-    char testVertical();
-    char testHorizontal();
-    char testAngleL();
-    char testAngleR();
+    void initMap();
+    bool testVertical();
+    bool testHorizontal();
+    bool testAngleL();
+    bool testAngleR();
+    void wonChange();
 
 
 public:
@@ -21,10 +23,9 @@ public:
     void out();
 
     char getMap(int x, int y);
-
     bool shot(char who, int num);
 
-    char testFull();
+    bool testFull();
 
 
 

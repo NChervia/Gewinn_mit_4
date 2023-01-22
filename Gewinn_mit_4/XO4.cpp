@@ -9,6 +9,12 @@ void XO4::initMap()
              this->map[x][y]='*';
         }
     }
+
+     
+     this->GameWon[0][0] = 8; this->GameWon[0][1] = 8;
+     this->GameWon[1][0] = 8; this->GameWon[1][1] = 8;
+     this->GameWon[2][0] = 8; this->GameWon[2][1] = 8;
+     this->GameWon[3][0] = 8; this->GameWon[3][1] = 8;
 }
 
 XO4::XO4()
@@ -56,17 +62,19 @@ bool XO4::shot(char who, int num)
     return false;
 }
 
-char XO4::testFull()
+bool XO4::testFull()
 {
-    this->testVertical();
-    this->testHorizontal();
-    this->testAngleL();
-    this->testAngleR();
+    bool ret = false;
+    if (this->testVertical())ret = true;
+    if (this->testHorizontal())ret = true;
+    if (this->testAngleL())ret = true;
+    if (this->testAngleR())ret = true;
+    this->wonChange();
 
-    return '*';
+    return ret;
 }
 
-char XO4::testVertical()
+bool XO4::testVertical()
 {
     for (int y = 0; y < 7; y++)
     {
@@ -83,8 +91,11 @@ char XO4::testVertical()
                     tempInt++;
                     if (tempInt == 4)
                     {
-                        std::cout << "Finish "<< tempWhu<<std::endl;
-                        return tempWhu;
+                        this->GameWon[0][0] = x; this->GameWon[0][1] = y;
+                        this->GameWon[1][0] = x+1; this->GameWon[1][1] = y;
+                        this->GameWon[2][0] = x+2; this->GameWon[2][1] = y;
+                        this->GameWon[3][0] = x+3; this->GameWon[3][1] = y;
+                        return true;
                     }
                 }
                 else if ('*' == this->map[x][y]) break;
@@ -98,10 +109,10 @@ char XO4::testVertical()
     }
 
     
-    return '*';
+    return false;
 }
 
-char XO4::testHorizontal()
+bool XO4::testHorizontal()
 {
     
     for (int x = 5; x >= 0; x--)
@@ -115,16 +126,19 @@ char XO4::testHorizontal()
                 char tempWhu = this->map[x][y];
                 if ((this->map[x][y] == this->map[x][y + 1]) && (this->map[x][y] == this->map[x][y + 2]) && (this->map[x][y] == this->map[x][y + 3]))
                 {
-                    std::cout << "Finish " << tempWhu << std::endl;
-                    return tempWhu;
+                    this->GameWon[0][0] = x; this->GameWon[0][1] = y;
+                    this->GameWon[1][0] = x; this->GameWon[1][1] = y + 1;
+                    this->GameWon[2][0] = x; this->GameWon[2][1] = y + 2;
+                    this->GameWon[3][0] = x; this->GameWon[3][1] = y + 3;
+                    return true;
                 }
             }
         }
     }
-    return '*';
+    return false;
 }
 
-char XO4::testAngleL()
+bool XO4::testAngleL()
 {
     for (int x = 5; x >= 3; x--)
     {
@@ -137,16 +151,19 @@ char XO4::testAngleL()
                 char tempWhu = this->map[x][y];
                 if ((this->map[x][y] == this->map[x - 1][y - 1]) && (this->map[x][y] == this->map[x - 2][y - 2]) && (this->map[x][y] == this->map[x - 3][y - 3]))
                 {
-                    std::cout << "Finish " << tempWhu << std::endl;
-                    return tempWhu;
+                    this->GameWon[0][0] = x; this->GameWon[0][1] = y;
+                    this->GameWon[1][0] = x - 1; this->GameWon[1][1] = y - 1;
+                    this->GameWon[2][0] = x - 2; this->GameWon[2][1] = y - 2;
+                    this->GameWon[3][0] = x - 3; this->GameWon[3][1] = y - 3;
+                    return true;
                 }
             }
         }
     }
-    return '*';
+    return false;
 }
 
-char XO4::testAngleR()
+bool XO4::testAngleR()
 {
     for (int x = 5; x >= 3; x--)
     {
@@ -159,11 +176,32 @@ char XO4::testAngleR()
                 char tempWhu = this->map[x][y];
                 if ((this->map[x][y] == this->map[x - 1][y + 1]) && (this->map[x][y] == this->map[x - 2][y + 2]) && (this->map[x][y] == this->map[x - 3][y + 3]))
                 {
-                    std::cout << "Finish " << tempWhu << std::endl;
-                    return tempWhu;
+                    this->GameWon[0][0] = x; this->GameWon[0][1] = y;
+                    this->GameWon[1][0] = x - 1; this->GameWon[1][1] = y + 1;
+                    this->GameWon[2][0] = x - 2; this->GameWon[2][1] = y + 2;
+                    this->GameWon[3][0] = x - 3; this->GameWon[3][1] = y + 3;
+                    return true;
                 }
             }
         }
     }
-    return '*';
+    return false;
+}
+
+void XO4::wonChange()
+{
+    if (map[this->GameWon[0][0]][this->GameWon[0][1]] == 'X')
+    {
+        map[this->GameWon[0][0]][this->GameWon[0][1]] = 'x';
+        map[this->GameWon[1][0]][this->GameWon[1][1]] = 'x';
+        map[this->GameWon[2][0]][this->GameWon[2][1]] = 'x';
+        map[this->GameWon[3][0]][this->GameWon[3][1]] = 'x';
+    }
+    else
+    {
+        map[this->GameWon[0][0]][this->GameWon[0][1]] = 'y';
+        map[this->GameWon[1][0]][this->GameWon[1][1]] = 'y';
+        map[this->GameWon[2][0]][this->GameWon[2][1]] = 'y';
+        map[this->GameWon[3][0]][this->GameWon[3][1]] = 'y';
+    }
 }

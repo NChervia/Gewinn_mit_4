@@ -8,6 +8,7 @@ void Game::initWindow()
 void Game::initVariables()
 {
 	this->gameStep = 0;
+	this->mouseTouchBuff = 10;
 }
 
 void Game::initTexture()
@@ -144,6 +145,16 @@ void Game::updateGameMapChips()
 			{
 			this->gameMapChips[num].setTexture(this->textureGameChipA);
 			}
+			else if (this->GameSTD.getMap(x, y) == 'x')
+			{
+				this->gameMapChips[num].setTexture(this->textureGameChipB);
+				this->gameMapChips[num].setColor(sf::Color::Red);
+			}
+			else if (this->GameSTD.getMap(x, y) == 'y')
+			{
+				this->gameMapChips[num].setTexture(this->textureGameChipA);
+				this->gameMapChips[num].setColor(sf::Color::Red);
+			}
 			num++;
 		}
 		
@@ -171,7 +182,7 @@ void Game::pollEvents()
 	}
 }
 
-int Game::mouseTouch()
+void Game::mouseTouch()
 {
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
@@ -191,7 +202,7 @@ int Game::mouseTouch()
 	{
 		this->gameChipB.setPosition(800.68f, 800.68f);
 	}
-	return 0;
+	return;
 }
 
 
@@ -199,7 +210,6 @@ int Game::mousePress()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		
 		if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140) && (this->mousePressBool == false))
 		{
 			this->mousePressBool = true;
@@ -212,10 +222,7 @@ int Game::mousePress()
 			else if (this->mousePosWindow.x > 113)num = 1;
 			else if (this->mousePosWindow.x > 0)  num = 0;
 			
-			if(this->gameStep%2==0)	this->GameSTD.shot('X', num);
-			else this->GameSTD.shot('O', num);
-			this->gameStep++;
-			this->GameSTD.testFull();
+			this->mouseTouchBuff = num;
 		}
 	}
 	else
@@ -223,6 +230,19 @@ int Game::mousePress()
 		this->mousePressBool = false;
 	}
 	return 10;
+}
+
+void Game::shotGame()
+{
+	if (this->mouseTouchBuff != 10)
+	{
+		
+		if (this->gameStep % 2 == 0)	this->GameSTD.shot('X', this->mouseTouchBuff);
+		else this->GameSTD.shot('O', this->mouseTouchBuff);
+		this->gameStep++;
+		if (this->GameSTD.testFull())std::cout << "finish!";
+		this->mouseTouchBuff = 10;
+	}
 }
 
 
@@ -252,6 +272,7 @@ void Game::update()
 	this->mousePress();
 	this->mouseTouch();
 	this->updateGameMapChips();
+	this->shotGame();
 
 
 }

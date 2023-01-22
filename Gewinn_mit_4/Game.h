@@ -20,14 +20,13 @@ private:
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 	bool mousePressBool;
-	
-	
-	
-	sf::Texture textureScreen;
+	int mouseTouchBuff;
+
 	sf::Texture textureGameMap;
 	sf::Texture textureGameChipA;
 	sf::Texture textureGameChipB;
 	sf::Texture textureGameChipZero;
+	sf::Texture textureScreen;
 	//sf::Font inkFree;
 	//sf::Text guiText;
 
@@ -40,6 +39,7 @@ private:
 
 	float chipsXY[50][2];
 	int gameStep;
+	
 
 	//Private functions
 	void initWindow();
@@ -62,15 +62,13 @@ public:
 	void updateMousePositions();
 	void updateGameMapChips();
 	void pollEvents();
-	
-	int mouseTouch();
+	void  mouseTouch();
+	int  mousePress();
+	void shotGame();
 
-	int mousePress();
-	void shotGame(int num);
 
-	//void renderSprite(sf::RenderTarget* target);
-	//void renderText(sf::RenderTarget* target);
 	void renderGameMapChips(sf::RenderTarget* target);
+
 
 	void run();
 

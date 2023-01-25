@@ -21,6 +21,7 @@ private:
 	sf::Vector2f mousePosView;
 	bool mousePressBool;
 	int mouseTouchBuff;
+	int mousePressBuff;
 
 	sf::Texture textureGameMap;
 	sf::Texture textureGameChipA;
@@ -62,15 +63,14 @@ public:
 	void updateMousePositions();
 	void updateGameMapChips();
 	void pollEvents();
-	void  mouseTouch();
+	void mouseTouch();
 	int  mousePress();
 	void shotGame();
-
+	void FinishFunc();
 
 	void renderGameMapChips(sf::RenderTarget* target);
 
-
-	void run();
+	void run(int TypeGame);
 
 	void update();
 	void render();

@@ -7,6 +7,7 @@ void Game::initWindow()
 
 void Game::initVariables()
 {
+	this->mousePressBuff = 10;
 	this->gameStep = 0;
 	this->mouseTouchBuff = 10;
 }
@@ -31,33 +32,12 @@ void Game::initSprite()
 	this->gameMap.scale(0.775f, 0.77f);
 	
 	this->gameChipA.setTexture(this->textureGameChipA);
-	this->gameChipA.setPosition(235.68f, 446.68f);//50,32
+	this->gameChipA.setPosition(0.0f, 0.0f);
 	this->gameChipA.scale(0.296f, 0.296f);
 
-
 	this->gameChipB.setTexture(this->textureGameChipB);
-	this->gameChipB.setPosition(122.68f, 228.68f);
+	this->gameChipB.setPosition(0.0f, 0.0f);
 	this->gameChipB.scale(0.296f, 0.296f);
-
-	/*
-	this->line_1.setPosition(60.f, 0.f);//+113
-	this->line_2.setPosition(173.f, 0.f);
-	this->line_3.setPosition(286.f, 0.f);
-	this->line_4.setPosition(399.f, 0.f);
-	this->line_5.setPosition(512.f, 0.f);
-	this->line_6.setPosition(625.f, 0.f);
-	this->line_7.setPosition(738.f, 0.f);
-
-	this->line0.setPosition(0.f, 61.f);//+109
-	this->line1.setPosition(0.f, 170.f);
-	this->line2.setPosition(0.f, 279.f);
-	this->line3.setPosition(0.f, 388.f);
-	this->line4.setPosition(0.f, 497.f);
-	this->line5.setPosition(0.f, 606.f);
-	this->line6.setPosition(0.f, 715.f);*/
-
-
-
 }
 
 void Game::initFonts()
@@ -105,7 +85,6 @@ void Game::initGameMapChips()
 Game::Game()
 {
 	this->initVariables();
-	this->initWindow();
 	this->initTexture();
 	this->initFonts();
 	this->initText();
@@ -116,7 +95,7 @@ Game::Game()
 
 Game::~Game()
 {
-	delete this->window;
+	//delete this->window;
 }
 
 void Game::updateMousePositions()
@@ -213,16 +192,16 @@ int Game::mousePress()
 		if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140) && (this->mousePressBool == false))
 		{
 			this->mousePressBool = true;
-			int num;
-			if (this->mousePosWindow.x > 678)    num = 6;
-			else if (this->mousePosWindow.x > 565)num = 5;
-			else if (this->mousePosWindow.x > 452)num = 4;
-			else if (this->mousePosWindow.x > 339)num = 3;
-			else if (this->mousePosWindow.x > 226)num = 2;
-			else if (this->mousePosWindow.x > 113)num = 1;
-			else if (this->mousePosWindow.x > 0)  num = 0;
+			int tempNum=10;
+			if (this->mousePosWindow.x > 678)    tempNum = 6;
+			else if (this->mousePosWindow.x > 565)tempNum = 5;
+			else if (this->mousePosWindow.x > 452)tempNum = 4;
+			else if (this->mousePosWindow.x > 339)tempNum = 3;
+			else if (this->mousePosWindow.x > 226)tempNum = 2;
+			else if (this->mousePosWindow.x > 113)tempNum = 1;
+			else if (this->mousePosWindow.x > 0)  tempNum = 0;
 			
-			this->mouseTouchBuff = num;
+			this->mouseTouchBuff = tempNum;
 		}
 	}
 	else
@@ -240,9 +219,15 @@ void Game::shotGame()
 		if (this->gameStep % 2 == 0)	this->GameSTD.shot('X', this->mouseTouchBuff);
 		else this->GameSTD.shot('O', this->mouseTouchBuff);
 		this->gameStep++;
-		if (this->GameSTD.testFull())std::cout << "finish!";
 		this->mouseTouchBuff = 10;
+		if (this->GameSTD.testFull())this->FinishFunc();
+		
 	}
+}
+
+void Game::FinishFunc()
+{
+	std::cout << "finish!";
 }
 
 
@@ -256,13 +241,15 @@ void Game::renderGameMapChips(sf::RenderTarget* target)
 	}
 }
 
-void Game::run()
+void Game::run(int TypeGame)
 {
+	this->initWindow();
 	while (this->window->isOpen())
 	{
 		this->update();
 		this->render();
 	}
+	delete this->window;
 }
 
 void Game::update()
@@ -284,10 +271,9 @@ void Game::render()
 
 	this->window->draw(this->Screen);
 	this->renderGameMapChips(window);
-	//this->window->draw(this->gameChipA);
+
 	this->window->draw(this->gameChipB);
 	this->window->draw(this->gameMap);
-	
-	//this->renderSprite(this->window);
+
 	this->window->display();
 }

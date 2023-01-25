@@ -6,9 +6,26 @@
 int main()
 {
       
-   
+    Start start; 
     Game game;
-    game.run();
-     return 0;
+    int TypeGame=0;
+    while (true)
+    {
+       
+        TypeGame = start.run();
+        //TypeGame = start.run();
+        if (TypeGame == 1)
+        {
+           
+            game.run(TypeGame);
+           
+        }
+        else if (TypeGame == 0)
+        {
+            break;
+        }
+    }
+
+    return 0;
 }
 

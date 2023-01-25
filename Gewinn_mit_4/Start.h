@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-enum StartLevel { BeginButton = 0, StartButton = 1, OptionButton = 3 };
+enum StartLevel { BeginButton = 0, StartButton = 1, OptionButton = 3, Null = 666 };
 class Start
 {
 private:
@@ -30,8 +30,11 @@ private:
 	sf::Text firstButtonText;
 	sf::Text secondButtonText;
 	sf::Text thirdButtonText;
+
+	int outTypeGame;
 	
 	StartLevel startLevel;
+	StartLevel startLevelBuff;
 
 	//Private functions
 	void initWindow();
@@ -59,10 +62,10 @@ public:
 	void firstButtonEvent();
 	void secondButtonEvent();
 	void thirdButtonEvent();
-	void changeButtons(StartLevel Level);
+	void changeButtons();
 
 
-	void run();
+	int run();
 
 	void update();
 	void render();

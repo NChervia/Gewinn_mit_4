@@ -8,7 +8,9 @@ void Start::initWindow()
 void Start::initVariables()
 {
 	this->startLevel = BeginButton;
+	this->startLevelBuff = BeginButton;
 	this->mousePressBool = true;
+	this->outTypeGame = 0;
 }
 
 void Start::initSprite()
@@ -85,7 +87,7 @@ void Start::initText()
 Start::Start()
 {
 	this->initVariables();
-	this->initWindow();
+	//this->initWindow();
 	this->initTexture();
 	this->initFonts();
 	this->initText();
@@ -94,7 +96,7 @@ Start::Start()
 
 Start::~Start()
 {
-	delete this->window;
+	
 }
 
 void Start::pollEvents()
@@ -199,33 +201,57 @@ void Start::mousePress()
 
 void Start::firstButtonEvent()
 {
-	if (this->startLevel == BeginButton) this->changeButtons(StartButton);
-	else if (this->startLevel == StartButton) this->window->close();
+	if (this->startLevel == BeginButton)
+	{
+		this->startLevel = StartButton; 
 
+	}
+	else if (this->startLevel == StartButton)
+	{
+		this->startLevel = BeginButton; 
+		this->outTypeGame=1;
+		this->window->close();
+		
+		
+	}
 }
 
 void Start::secondButtonEvent()
 {
-	if (this->startLevel == BeginButton)std::cout << "Option\n";
-	else if (this->startLevel == StartButton)this->window->close();
+	if (this->startLevel == BeginButton)
+	{
+		this->window = new sf::RenderWindow(sf::VideoMode(800, 800), "Gewinn mit 4", sf::Style::Close | sf::Style::Titlebar);
+	}
+	else if (this->startLevel == StartButton)
+	{
+		this->window->close();
+	}
 }
 
 void Start::thirdButtonEvent()
 {
-	if(this->startLevel==BeginButton) this->window->close();
-	else if (this->startLevel == StartButton)this->window->close();
+	
+	if (this->startLevel == BeginButton)
+	{
+		this->startLevel = BeginButton;
+		this->window->close();
+	}
+	else if (this->startLevel == StartButton)
+	{
+		this->startLevel = BeginButton;
+	}
 }
 
-void Start::changeButtons(StartLevel level)
+void Start::changeButtons()
 {
-	if (level == this->startLevel) return;
-	else if (level == BeginButton)
+	if (this->startLevel == this->startLevelBuff) return;
+	else if (this->startLevel == BeginButton)
 	{
-		this->startLevel = level;
+		std::cout << "\n\n BeginButton \n\n";
+		this->startLevelBuff = this->startLevel;
 
 		this->firstButtonText.setPosition(150.f, 120.f);
 		this->firstButtonText.setString("Start");
-
 		this->secondButtonText.setPosition(140.f, 188.f);
 		this->secondButtonText.setString("Option");
 
@@ -234,9 +260,10 @@ void Start::changeButtons(StartLevel level)
 
 		return;
 	}
-	else if (level == StartButton)
+	else if (this->startLevel == StartButton)
 	{
-		this->startLevel = level;
+		std::cout << "\n\n StartButton \n\n";
+		this->startLevelBuff = this->startLevel;
 
 		this->firstButtonText.setPosition(150.f, 120.f);
 		this->firstButtonText.setString("Alone");
@@ -252,13 +279,18 @@ void Start::changeButtons(StartLevel level)
 
 }
 
-void Start::run()
+int Start::run()
 {
+	//delete this->window;
+	this->initWindow();
+	this->initVariables();
 	while (this->window->isOpen())
 	{
-		this->update();
-		this->render();
+	this->update();
+	this->render();
 	}
+	delete this->window;
+	return this->outTypeGame;
 }
 
 void Start::update()
@@ -266,6 +298,7 @@ void Start::update()
 	this->pollEvents();
 	this->updateMousePositions();
 	this->mousePress();
+	this->changeButtons();
 }
 
 void Start::render()

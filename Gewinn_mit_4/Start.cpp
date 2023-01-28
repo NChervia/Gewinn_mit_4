@@ -220,7 +220,7 @@ void Start::secondButtonEvent()
 {
 	if (this->startLevel == BeginButton)
 	{
-		this->window = new sf::RenderWindow(sf::VideoMode(800, 800), "Gewinn mit 4", sf::Style::Close | sf::Style::Titlebar);
+	
 	}
 	else if (this->startLevel == StartButton)
 	{

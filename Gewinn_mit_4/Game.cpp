@@ -42,10 +42,19 @@ void Game::initSprite()
 
 void Game::initFonts()
 {
+	if (!this->inkFree.loadFromFile("Fonts/inkfree.ttf"))std::cout << "Error Font inkfree.ttf\n";
+
 }
 
 void Game::initText()
 {
+	this->guiText.setFont(this->inkFree);
+	this->guiText.setFillColor(sf::Color::White);
+	this->guiText.setCharacterSize(100);
+	this->guiText.setPosition(200.f, 00.f);
+	this->guiText.setOutlineThickness(1.f);
+	this->guiText.setOutlineColor(sf::Color::White);
+	this->guiText.setString(" ");
 }
 
 void Game::initChipsXY()
@@ -215,22 +224,25 @@ void Game::shotGame()
 {
 	if (this->mouseTouchBuff != 10)
 	{
-		
 		if (this->gameStep % 2 == 0)	this->GameSTD.shot('X', this->mouseTouchBuff);
 		else this->GameSTD.shot('O', this->mouseTouchBuff);
 		this->gameStep++;
 		this->mouseTouchBuff = 10;
 		if (this->GameSTD.testFull())this->FinishFunc();
-		
 	}
 }
 
 void Game::FinishFunc()
 {
-	std::cout << "finish!";
+	this->guiText.setString("Finish!");
+	this->gameStep = 100;
 }
 
 
+void Game::renderText(sf::RenderTarget* target)
+{
+	target->draw(this->guiText);
+}
 
 
 void Game::renderGameMapChips(sf::RenderTarget* target)
@@ -256,17 +268,14 @@ void Game::update()
 {
 	this->pollEvents();
 	this->updateMousePositions();
-	this->mousePress();
 	this->mouseTouch();
+	if (this->gameStep < 100) this->mousePress();
 	this->updateGameMapChips();
 	this->shotGame();
-
-
 }
 
 void Game::render()
 {
-
 	this->window->clear();
 
 	this->window->draw(this->Screen);
@@ -274,6 +283,6 @@ void Game::render()
 
 	this->window->draw(this->gameChipB);
 	this->window->draw(this->gameMap);
-
+	this->renderText(window);
 	this->window->display();
 }

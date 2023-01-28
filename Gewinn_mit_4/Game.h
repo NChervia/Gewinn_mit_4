@@ -28,8 +28,9 @@ private:
 	sf::Texture textureGameChipB;
 	sf::Texture textureGameChipZero;
 	sf::Texture textureScreen;
-	//sf::Font inkFree;
-	//sf::Text guiText;
+	
+	sf::Font inkFree;
+	sf::Text guiText;
 
 	sf::Sprite gameMap;
 	sf::Sprite Screen;
@@ -69,7 +70,7 @@ public:
 	void FinishFunc();
 
 	void renderGameMapChips(sf::RenderTarget* target);
-
+	void renderText(sf::RenderTarget* target);
 	void run(int TypeGame);
 
 	void update();

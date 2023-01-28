@@ -5,20 +5,17 @@
 #include <Windows.h>
 int main()
 {
-      
-    Start start; 
+
+    Start start;
     Game game;
-    int TypeGame=0;
+    int TypeGame = 0;
     while (true)
     {
-       
         TypeGame = start.run();
         //TypeGame = start.run();
         if (TypeGame == 1)
         {
-           
             game.run(TypeGame);
-           
         }
         else if (TypeGame == 0)
         {

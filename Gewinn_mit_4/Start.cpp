@@ -52,11 +52,6 @@ void Start::initFonts()
 
 void Start::initText()
 {
-	
-	this->secondButtonText;
-	this->thirdButtonText;
-
-
 	this->firstButtonText.setFont(this->inkFree);
 	this->firstButtonText.setFillColor(sf::Color::Black);
 	this->firstButtonText.setCharacterSize(52);
@@ -80,8 +75,6 @@ void Start::initText()
 	this->thirdButtonText.setOutlineThickness(1.f);
 	this->thirdButtonText.setOutlineColor(sf::Color::White);
 	this->thirdButtonText.setString("Exit");
-
-
 }
 
 Start::Start()
@@ -220,11 +213,12 @@ void Start::secondButtonEvent()
 {
 	if (this->startLevel == BeginButton)
 	{
-	
+		this->outTypeGame = 2;
+		this->window->close();
 	}
 	else if (this->startLevel == StartButton)
 	{
-		this->window->close();
+	
 	}
 }
 

@@ -10,15 +10,19 @@ void Game::initVariables()
 	this->mousePressBuff = 10;
 	this->gameStep = 0;
 	this->mouseTouchBuff = 10;
+	this->numTextureFirstChip = 0;
+	this->numTextureSecondChip = 1;
 }
 
 void Game::initTexture()
 {
 	if (!this->textureGameMap.loadFromFile("Texture/Game_map.png"))   std::cout << "Error Texture Game_map.png\n";
 	if (!this->textureScreen.loadFromFile("Texture/Screen.png"))   std::cout << "Error Texture Screen.png\n";
-	if (!this->textureGameChipA.loadFromFile("Texture/ChipA.png"))   std::cout << "Error Texture ChipA.png\n";
-	if (!this->textureGameChipB.loadFromFile("Texture/ChipB.png"))   std::cout << "Error Texture ChipB.png\n";
+
+	if (!this->textureGameChipA.loadFromFile("Texture/Zero.png"))   std::cout << "Error Texture Chip1.png\n";
+	if (!this->textureGameChipB.loadFromFile("Texture/Zero.png"))   std::cout << "Error Texture Chip2.png\n";
 	if (!this->textureGameChipZero.loadFromFile("Texture/Zero.png"))   std::cout << "Error Texture Zero.png\n";
+
 }
 
 void Game::initSprite()
@@ -88,6 +92,109 @@ void Game::initGameMapChips()
 	for (int y = 0; y < 7; y++)
 	{
 		this->gameMapChips[y].setTexture(this->textureGameChipZero);
+	}
+}
+
+void Game::initTextureChipsAB()
+{
+
+		if (this->numTextureFirstChip == 0)
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip5.png"))   std::cout << "Error Texture Chip1.png\n";
+		}
+		else if (this->numTextureFirstChip == 1)
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip1.png"))   std::cout << "Error Texture Chip1.png\n";
+		}
+		else if (this->numTextureFirstChip == 2)
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip2.png"))   std::cout << "Error Texture Chip2.png\n";
+		}
+		else if (this->numTextureFirstChip == 3)
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip3.png"))   std::cout << "Error Texture Chip3.png\n";
+		}
+		else if (this->numTextureFirstChip == 4) 
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip4.png"))   std::cout << "Error Texture Chip4.png\n";
+		}
+		else if (this->numTextureFirstChip == 5) 
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip5.png"))   std::cout << "Error Texture Chip5.png\n";
+		}
+		else if (this->numTextureFirstChip == 6) 
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip6.png"))   std::cout << "Error Texture Chip6.png\n";
+		}
+		else if (this->numTextureFirstChip == 7) 
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip7.png"))   std::cout << "Error Texture Chip7.png\n";
+		}
+		else if (this->numTextureFirstChip == 8) 
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip8.png"))   std::cout << "Error Texture Chip8.png\n";
+		}
+		else if (this->numTextureFirstChip == 9) 
+		{
+			if (!this->textureGameChipA.loadFromFile("Texture/Chip9.png"))   std::cout << "Error Texture Chip9.png\n";
+		}
+		else std::cout << "Error Texture\n";
+
+		if (this->numTextureSecondChip == 0) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip6.png"))   std::cout << "Error Texture Chip6.png\n";
+		}
+		else if (this->numTextureSecondChip == 1) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip1.png"))   std::cout << "Error Texture Chip1.png\n";
+		}
+		else if (this->numTextureSecondChip == 2) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip2.png"))   std::cout << "Error Texture Chip2.png\n";
+		}
+		else if (this->numTextureSecondChip == 3) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip3.png"))   std::cout << "Error Texture Chip3.png\n";
+		}
+		else if (this->numTextureSecondChip == 4) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip4.png"))   std::cout << "Error Texture Chip4.png\n";
+		}
+		else if (this->numTextureSecondChip == 5) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip5.png"))   std::cout << "Error Texture Chip5.png\n";
+		}
+		else if (this->numTextureSecondChip == 6) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip6.png"))   std::cout << "Error Texture Chip6.png\n";
+		}
+		else if (this->numTextureSecondChip == 7) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip7.png"))   std::cout << "Error Texture Chip7.png\n";
+		}
+		else if (this->numTextureSecondChip == 8) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip8.png"))   std::cout << "Error Texture Chip8.png\n";
+		}
+		else if (this->numTextureSecondChip == 9) 
+		{
+			if (!this->textureGameChipB.loadFromFile("Texture/Chip9.png"))   std::cout << "Error Texture Chip9.png\n";
+		}
+		else std::cout << "Error Texture\n";
+
+	
+		this->textureGameChipB.setSrgb(true);
+		this->textureGameChipA.setSrgb(false);
+		if ((this->numTextureSecondChip == this->numTextureFirstChip) && (this->numTextureFirstChip != 0))
+	{
+		this->gameChipA.setColor(sf::Color(0, 255, 255, 255));
+		this->gameChipB.setColor(sf::Color(255, 255, 0, 255));
+		
+	}
+	else
+	{
+		this->gameChipA.setColor(sf::Color::White);
+		this->gameChipB.setColor(sf::Color::White);
 	}
 }
 
@@ -253,9 +360,15 @@ void Game::renderGameMapChips(sf::RenderTarget* target)
 	}
 }
 
-void Game::run(int TypeGame)
+void Game::run(int TypeGame, int ChipsTextyreNum)
 {
 	this->initWindow();
+	this->numTextureFirstChip = ChipsTextyreNum/10;
+	this->numTextureSecondChip = ChipsTextyreNum%10;
+	std::cout << "ChipsTextyreNum-" << ChipsTextyreNum << std::endl;
+	std::cout << "numTextureFirstChip-" << this->numTextureFirstChip << std::endl;
+	std::cout << "numTextureSecondChip-" << this->numTextureSecondChip << std::endl;
+	this->initTextureChipsAB();
 	while (this->window->isOpen())
 	{
 		this->update();

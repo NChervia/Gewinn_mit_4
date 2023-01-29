@@ -28,7 +28,18 @@ private:
 	sf::Texture textureGameChipB;
 	sf::Texture textureGameChipZero;
 	sf::Texture textureScreen;
-	
+
+	sf::Texture textureChip1;
+	sf::Texture textureChip2;
+	sf::Texture textureChip3;
+	sf::Texture textureChip4;
+	sf::Texture textureChip5;
+	sf::Texture textureChip6;
+	sf::Texture textureChip7;
+	sf::Texture textureChip8;
+	sf::Texture textureChip9;
+	sf::Texture textureChipZero;
+		
 	sf::Font inkFree;
 	sf::Text guiText;
 
@@ -41,7 +52,8 @@ private:
 
 	float chipsXY[50][2];
 	int gameStep;
-	
+	int numTextureFirstChip;
+	int numTextureSecondChip;
 
 	//Private functions
 	void initWindow();
@@ -52,6 +64,7 @@ private:
 	void initText();
 	void initChipsXY();
 	void initGameMapChips(); 
+	void initTextureChipsAB();
 
 
 public:
@@ -71,7 +84,7 @@ public:
 
 	void renderGameMapChips(sf::RenderTarget* target);
 	void renderText(sf::RenderTarget* target);
-	void run(int TypeGame);
+	void run(int TypeGame, int ChipsTextyreNum);
 
 	void update();
 	void render();

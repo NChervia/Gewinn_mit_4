@@ -7,7 +7,7 @@ void Option::initWindow()
 
 void Option::initVariables()
 {
-	this->mousePressBool = true;
+	this->mousePressBool = false;
 	this->choisChipNum = 0;
 	this->numTextureFirstChip = 0;
 	this->numTextureSecondChip = 0;
@@ -24,6 +24,15 @@ void Option::initSprite()
 	this->ChoisChip.setPosition(150.f, 250.f);
 	this->ChoisChip.scale(0.5f, 0.5f);
 
+	this->ButtonY.setTexture(this->textureButtonY);
+	this->ButtonY.setPosition(280.0f, 80.0f);
+	this->ButtonY.scale(0.85f, 0.85f);
+
+	this->ButtonX.setTexture(this->textureButtonX);
+	this->ButtonX.setPosition(380.0f, 80.0f);
+	this->ButtonX.scale(0.85f, 0.85f);
+
+
 	this->firstChip.setTexture(this->textureChip1);
 	this->firstChip.setPosition(100.0f, 20.0f);
 	this->firstChip.scale(0.4f, 0.4f);
@@ -39,6 +48,8 @@ void Option::initTexture()
 {
 	if (!this->textureScreen.loadFromFile("Texture/Screen.png"))   std::cout << "Error Texture Screen.png\n";
 	if (!this->textureChips.loadFromFile("Texture/Chips.png"))   std::cout << "Error Texture Chips.png\n";
+	if (!this->textureButtonY.loadFromFile("Texture/ButtonY.png"))   std::cout << "Error Texture ButtonY.png\n";
+	if (!this->textureButtonX.loadFromFile("Texture/ButtonX.png"))   std::cout << "Error Texture ButtonX.png\n";
 
 	if (!this->textureChip1.loadFromFile("Texture/Chip1.png"))   std::cout << "Error Texture Chip1.png\n";
 	if (!this->textureChip2.loadFromFile("Texture/Chip2.png"))   std::cout << "Error Texture Chip2.png\n";
@@ -95,6 +106,18 @@ Option::~Option()
 
 }
 
+void Option::funcButtonX()
+{
+	this->numTextureFirstChip = 0;
+	this->numTextureSecondChip = 1;
+	this->window->close();
+}
+
+void Option::funcButtonY()
+{
+	this->window->close();
+}
+
 void Option::pollEvents()
 {
 	while (this->window->pollEvent(this->sfmlEvent))
@@ -103,11 +126,15 @@ void Option::pollEvents()
 		{
 
 		case sf::Event::Closed:
+			this->numTextureFirstChip = 0;
+			this->numTextureSecondChip = 1;
 			this->window->close();
 			break;
 		case sf::Event::KeyPressed:
 			if (this->sfmlEvent.key.code == sf::Keyboard::Escape)
 			{
+				this->numTextureFirstChip = 0;
+				this->numTextureSecondChip = 1;
 				this->window->close();
 			}
 			break;
@@ -125,6 +152,8 @@ void Option::updateMousePositions()
 
 int Option::mouseDetect()
 {
+	if ((this->mousePosWindow.x > 280) && (this->mousePosWindow.x < 370) && (this->mousePosWindow.y > 80) && (this->mousePosWindow.y < 160)) return 21;
+	if ((this->mousePosWindow.x > 380) && (this->mousePosWindow.x < 470) && (this->mousePosWindow.y > 80) && (this->mousePosWindow.y < 160)) return 22;
 	int pozition = 0;
 	if ((this->mousePosWindow.x > 160) && (this->mousePosWindow.x < 310))      pozition = 1;
 	else if ((this->mousePosWindow.x > 320) && (this->mousePosWindow.x < 475)) pozition = 2;  //Y
@@ -141,10 +170,14 @@ int Option::mouseDetect()
 
 void Option::mousePress()
 {
+	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
+		//std::cout << "\n" <<"y-" << this->mousePosWindow.y << "   X-" << this->mousePosWindow.x << std::endl;
 		int pozition = this->mouseDetect();
-		if ((this->mousePressBool == true)&&(pozition != 0))
+		if (pozition == 21)this->funcButtonY();
+		if (pozition == 22)this->funcButtonX();
+		if ((this->mousePressBool == true) && (pozition > 0) && (pozition < 10))
 		{
 			this->mousePressBool = false;
 			if (this->ChipAB == true)
@@ -172,43 +205,51 @@ void Option::mouseTouch()
 }
 
 void Option::ChageTextures(int num)
-{
-	int ChipA = num;
-	int ChipB = num;
-
-	if (this->numTextureFirstChip != 0)ChipA = this->numTextureFirstChip;
-	if (ChipA == 0)this->firstChip.setTexture(this->textureChipZero);
-	else if (ChipA == 1)this->firstChip.setTexture(this->textureChip1);
-	else if (ChipA == 2)this->firstChip.setTexture(this->textureChip2);
-	else if (ChipA == 3)this->firstChip.setTexture(this->textureChip3);
-	else if (ChipA == 4)this->firstChip.setTexture(this->textureChip4);
-	else if (ChipA == 5)this->firstChip.setTexture(this->textureChip5);
-	else if (ChipA == 6)this->firstChip.setTexture(this->textureChip6);
-	else if (ChipA == 7)this->firstChip.setTexture(this->textureChip7);
-	else if (ChipA == 8)this->firstChip.setTexture(this->textureChip8);
-	else if (ChipA == 9)this->firstChip.setTexture(this->textureChip9);
-
-	if (this->numTextureSecondChip != 0)ChipB = this->numTextureSecondChip;
-	if (ChipB == 0)this->secondChip.setTexture(this->textureChipZero);
-	else if (ChipB == 1)this->secondChip.setTexture(this->textureChip1);
-	else if (ChipB == 2)this->secondChip.setTexture(this->textureChip2);
-	else if (ChipB == 3)this->secondChip.setTexture(this->textureChip3);
-	else if (ChipB == 4)this->secondChip.setTexture(this->textureChip4);
-	else if (ChipB == 5)this->secondChip.setTexture(this->textureChip5);
-	else if (ChipB == 6)this->secondChip.setTexture(this->textureChip6);
-	else if (ChipB == 7)this->secondChip.setTexture(this->textureChip7);
-	else if (ChipB == 8)this->secondChip.setTexture(this->textureChip8);
-	else if (ChipB == 9)this->secondChip.setTexture(this->textureChip9);
-	
-	if ((this->numTextureSecondChip == this->numTextureFirstChip) && (this->numTextureFirstChip != 0))
-	{
-		this->firstChip.setColor(sf::Color(0, 255, 255, 255));
-		this->secondChip.setColor(sf::Color(255, 255, 0, 255));
-	}
+{	
+	this->ButtonY.setColor(sf::Color(255, 255, 255, 255));
+	this->ButtonX.setColor(sf::Color(255, 255, 255, 255));
+	if(num==21) this->ButtonY.setColor(sf::Color(120, 120, 255, 255));
+	else if(num == 22) this->ButtonX.setColor(sf::Color(255, 0, 0, 255));
 	else
 	{
-		this->firstChip.setColor(sf::Color::White);
-		this->secondChip.setColor(sf::Color::White);
+
+		int ChipA = num;
+		int ChipB = num;
+
+		if (this->numTextureFirstChip != 0)ChipA = this->numTextureFirstChip;
+		if (ChipA == 0)this->firstChip.setTexture(this->textureChipZero);
+		else if (ChipA == 1)this->firstChip.setTexture(this->textureChip1);
+		else if (ChipA == 2)this->firstChip.setTexture(this->textureChip2);
+		else if (ChipA == 3)this->firstChip.setTexture(this->textureChip3);
+		else if (ChipA == 4)this->firstChip.setTexture(this->textureChip4);
+		else if (ChipA == 5)this->firstChip.setTexture(this->textureChip5);
+		else if (ChipA == 6)this->firstChip.setTexture(this->textureChip6);
+		else if (ChipA == 7)this->firstChip.setTexture(this->textureChip7);
+		else if (ChipA == 8)this->firstChip.setTexture(this->textureChip8);
+		else if (ChipA == 9)this->firstChip.setTexture(this->textureChip9);
+
+		if (this->numTextureSecondChip != 0)ChipB = this->numTextureSecondChip;
+		if (ChipB == 0)this->secondChip.setTexture(this->textureChipZero);
+		else if (ChipB == 1)this->secondChip.setTexture(this->textureChip1);
+		else if (ChipB == 2)this->secondChip.setTexture(this->textureChip2);
+		else if (ChipB == 3)this->secondChip.setTexture(this->textureChip3);
+		else if (ChipB == 4)this->secondChip.setTexture(this->textureChip4);
+		else if (ChipB == 5)this->secondChip.setTexture(this->textureChip5);
+		else if (ChipB == 6)this->secondChip.setTexture(this->textureChip6);
+		else if (ChipB == 7)this->secondChip.setTexture(this->textureChip7);
+		else if (ChipB == 8)this->secondChip.setTexture(this->textureChip8);
+		else if (ChipB == 9)this->secondChip.setTexture(this->textureChip9);
+
+		if ((this->numTextureSecondChip == this->numTextureFirstChip) && (this->numTextureFirstChip != 0))
+		{
+			this->firstChip.setColor(sf::Color(0, 255, 255, 255));
+			this->secondChip.setColor(sf::Color(255, 255, 0, 255));
+		}
+		else
+		{
+			this->firstChip.setColor(sf::Color::White);
+			this->secondChip.setColor(sf::Color::White);
+		}
 	}
 }
 
@@ -259,6 +300,7 @@ void Option::render()
 
 void Option::renderButtons(sf::RenderTarget* target)
 {
-
+	target->draw(this->ButtonY);
+	target->draw(this->ButtonX);
 }
 

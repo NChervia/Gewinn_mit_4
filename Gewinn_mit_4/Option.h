@@ -18,6 +18,8 @@ private:
 
 	sf::Texture textureScreen;
 	sf::Texture textureChips;
+	sf::Texture textureButtonY;
+	sf::Texture textureButtonX;
 
 	sf::Texture textureChip1;
 	sf::Texture textureChip2;
@@ -31,6 +33,8 @@ private:
 	sf::Texture textureChipZero;
 
 	sf::Sprite Screen;
+	sf::Sprite ButtonY;
+	sf::Sprite ButtonX;
 	sf::Sprite firstChip;
 	sf::Sprite secondChip;
 	sf::Sprite ChoisChip;
@@ -62,11 +66,13 @@ public:
 	Option();
 	~Option();
 
+	void funcButtonX();
+	void funcButtonY();
 
 	void pollEvents();
 
 	void updateMousePositions();
-	int mouseDetect();
+	int  mouseDetect();
 	void mousePress();
 	void mouseTouch();
 	void ChageTextures(int num);

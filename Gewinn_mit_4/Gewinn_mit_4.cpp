@@ -1,33 +1,27 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Game.h"
-#include "Start.h"
-#include "Option.h"
 #include <Windows.h>
+#include "Game.h"   //Playing field class
+#include "Start.h"  //Start menu class
+#include "Option.h" //Option menu class
+
+
 int main()
 {
 
-    Start start;
-    Game game;
-    Option option;
-    int TypeGame = 0;
-    int ChipsTextyreNum=0;
-    while (true)
+    Start start;     //Class initialization
+    Game game;       //Class initialization
+    Option option;   //Class initialization
+    int NextStep = 0;// Next step : 1 - single player, 2 - options, 0 - exit.
+    int ChipsTextyreNum = 0; //Player skin type
+    while (true)     //Main cycle
     {
-        TypeGame = start.run();
-        //TypeGame = start.run();
-        if (TypeGame == 1)
-        {
-            game.run(TypeGame, ChipsTextyreNum);
-        }
-        else if (TypeGame == 2)
-        {
-            ChipsTextyreNum = option.run();
-        }
-        else if (TypeGame == 0)
-        {
-            break;
-        }
+        NextStep = start.run();  //Menu launch
+        
+        if (NextStep == 1) game.run(NextStep, ChipsTextyreNum); //Game launch
+        else if (NextStep == 2) ChipsTextyreNum = option.run(); //Launching the options menu
+        else if (NextStep == 0) break; //Exit
+        else break; //Exit
     }
 
     return 0;

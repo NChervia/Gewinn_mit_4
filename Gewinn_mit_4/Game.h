@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include "XO4.h"
+#include "XO4.h"  //Game logic class
 
 
 
@@ -11,18 +11,21 @@ class Game
 {
 private:
 
-	XO4 GameSTD;
+	XO4 GameSTD; //Class initialization
+	
+	
+	sf::RenderWindow* window; // Create the render window
+	
+	sf::Event sfmlEvent;     // Event processing
 
-	sf::RenderWindow* window;//Window
-	sf::Event sfmlEvent; //Event
+	sf::Vector2i mousePosWindow; // Global mouse position data
+
+	bool mousePressBool; //Mouse click data
+	int mouseTouchBuff;  //Mouse position data, touch
+	int mousePressBuff;  //Mouse position data, press
 
 
-	sf::Vector2i mousePosWindow;
-	sf::Vector2f mousePosView;
-	bool mousePressBool;
-	int mouseTouchBuff;
-	int mousePressBuff;
-
+	//Creating textures
 	sf::Texture textureGameMap;
 	sf::Texture textureGameChipA;
 	sf::Texture textureGameChipB;
@@ -40,28 +43,29 @@ private:
 	sf::Texture textureChip9;
 	sf::Texture textureChipZero;
 		
-	sf::Font inkFree;
-	sf::Text guiText;
+	sf::Font inkFree; //Creating Font
+	sf::Text guiText; //Creating Text
 
-	sf::Sprite gameMap;
-	sf::Sprite Screen;
-	sf::Sprite gameChipA;
-	sf::Sprite gameChipB;
 
-	std::vector <sf::Sprite> gameMapChips;
+	sf::Sprite gameMap;		// Create a sprite. Game map
+	sf::Sprite Screen;		// Create a sprite. Screen
+	sf::Sprite gameChipA;	// Create a sprite. Game chip
+	sf::Sprite gameChipB;	// Create a sprite. Pointing chip
 
-	float chipsXY[50][2];
+	std::vector <sf::Sprite> gameMapChips; // Create a vector of sprites. Chips on the game map
+
+	float chipsXY[50][2]; 
 	int gameStep;
 	int numTextureFirstChip;
 	int numTextureSecondChip;
 
 	//Private functions
-	void initWindow();
-	void initVariables();
-	void initSprite();
-	void initTexture();
-	void initFonts();
-	void initText();
+	void initWindow();		// Initialize the render window
+	void initVariables();	// Initialize variables
+	void initSprite();		// Initialize sprites
+	void initTexture();		// Initialize textures
+	void initFonts();		// Initialize fonts
+	void initText();		// Initialize texts
 	void initChipsXY();
 	void initGameMapChips(); 
 	void initTextureChipsAB();
@@ -74,19 +78,23 @@ public:
 
 	//Functions
 
-	void updateMousePositions();
+	void updateMousePositions(); // Update global mouse position data
 	void updateGameMapChips();
-	void pollEvents();
-	void mouseTouch();
-	int  mousePress();
-	void shotGame();
-	void FinishFunc();
+	void pollEvents();	// Event handling
+	void mouseTouch();	// Handle mouse touch
+	int  mousePress();	// Handle mouse click
+	void shotGame();	
+	void FinishFunc();	// Handling the finish
 
-	void renderGameMapChips(sf::RenderTarget* target);
-	void renderText(sf::RenderTarget* target);
-	void run(int TypeGame, int ChipsTextyreNum);
+	void run(int TypeGame, int ChipsTextyreNum); // Start the game
 
-	void update();
-	void render();
+
+	void renderGameMapChips(sf::RenderTarget* target);  // Render game chips
+	void renderText(sf::RenderTarget* target);			// Render text
+	 
+	
+
+	void update(); // Updating
+	void render(); // Rendering
 };
 

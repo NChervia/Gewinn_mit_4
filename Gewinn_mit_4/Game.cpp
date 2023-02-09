@@ -217,7 +217,7 @@ Game::~Game()
 void Game::updateMousePositions()
 {
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+	
 }
 
 void Game::updateGameMapChips()
@@ -235,10 +235,12 @@ void Game::updateGameMapChips()
 			else if (this->GameSTD.getMap(x, y) == 'X')
 			{
 				this->gameMapChips[num].setTexture(this->textureGameChipB);
+				this->gameMapChips[num].setColor(sf::Color::White);
 			}
 			else if (this->GameSTD.getMap(x, y) == 'O')
 			{
 			this->gameMapChips[num].setTexture(this->textureGameChipA);
+			this->gameMapChips[num].setColor(sf::Color::White);
 			}
 			else if (this->GameSTD.getMap(x, y) == 'x')
 			{
@@ -279,8 +281,8 @@ void Game::pollEvents()
 
 void Game::mouseTouch()
 {
-	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+	this->updateMousePositions();
+
 	if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140))
 	{
 		if (this->gameStep % 2 == 0)this->gameChipB.setTexture(this->textureGameChipB);
@@ -374,6 +376,9 @@ void Game::run(int TypeGame, int ChipsTextyreNum)
 		this->update();
 		this->render();
 	}
+	this->guiText.setString(" ");
+	this->gameStep = 0;
+	this->GameSTD.newmap();
 	delete this->window;
 }
 

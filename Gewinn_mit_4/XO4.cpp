@@ -38,6 +38,11 @@ void XO4::out()
     }
 }
 
+void XO4::newmap()
+{
+    this->initMap();
+}
+
 char XO4::getMap(int x, int y)
 {
     if ((x < 0) && (x > 6))return 0;

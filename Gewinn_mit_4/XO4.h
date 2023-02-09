@@ -21,7 +21,7 @@ public:
     XO4();
     ~XO4();
     void out();
-
+    void newmap();
     char getMap(int x, int y);
     bool shot(char who, int num);
 

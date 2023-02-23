@@ -133,15 +133,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="DialogBoxGame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gewinn_mit_4.cpp" />
     <ClCompile Include="Option.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="Start.cpp" />
     <ClCompile Include="XO4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="DialogBoxGame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="Start.h" />
     <ClInclude Include="XO4.h" />
   </ItemGroup>

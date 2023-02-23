@@ -4,10 +4,12 @@
 #include "Game.h"   //Playing field class
 #include "Start.h"  //Start menu class
 #include "Option.h" //Option menu class
-
+#include "DialogBoxGame.h" //Dialog box class
 
 int main()
 {
+    DialogBoxGame DialogBoxGame;  //Class initialization
+    DialogBoxGame.run();
 
     Start start;     //Class initialization
     Game game;       //Class initialization

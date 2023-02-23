@@ -74,7 +74,7 @@ private:
 public:
 	//Constructor\Destructor
 	Game();
-	virtual ~Game();
+	~Game();
 
 	//Functions
 

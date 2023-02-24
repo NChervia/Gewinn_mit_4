@@ -30,14 +30,22 @@ void DialogBoxGame::initFonts() // Initialize fonts
 void DialogBoxGame::initText() // Initialize texts
 {
 	this->guiText.setFont(this->inkFree);
-	this->guiText.setFillColor(sf::Color::White);
-	this->guiText.setCharacterSize(100);
-	this->guiText.setPosition(200.f, 00.f);
-	this->guiText.setOutlineThickness(1.f);
-	this->guiText.setOutlineColor(sf::Color::White);
-	this->guiText.setString(" ");
+	this->guiText.setFillColor(sf::Color::Black);
+	this->guiText.setCharacterSize(50);
+	this->guiText.setPosition(100.f, 10.f);
+	this->guiText.setOutlineThickness(1.5f);
+	this->guiText.setOutlineColor(sf::Color::Black);
+	this->guiText.setString("Conect...");
 
-
+	
+	this->buttonText.setFont(this->inkFree);
+	this->buttonText.setFillColor(sf::Color::Black);
+	this->buttonText.setCharacterSize(50);
+	this->buttonText.setPosition(165.f, 98.f);
+	this->buttonText.setOutlineThickness(3.f);
+	this->buttonText.setOutlineColor(sf::Color::Black);
+	this->buttonText.setString("OK");
+	
 }
 
 DialogBoxGame::DialogBoxGame()
@@ -87,7 +95,7 @@ void DialogBoxGame::mousePress()
 	{
 		if ((this->mousePosWindow.y > 90) && (this->mousePosWindow.y < 170) && (this->mousePosWindow.x > 75) && (this->mousePosWindow.x < 320))
 		{
-			std::cout << " y - " << this->mousePosWindow.y << " x - " << this->mousePosWindow.x << std::endl;
+			this->window->close();
 		}
 	}
 }
@@ -103,9 +111,29 @@ void DialogBoxGame::run()
 	delete this->window;
 }
 
+void DialogBoxGame::run(int type)
+{
+	this->initWindow(); // Initialize the render window
+
+	if (type == 1)
+	{
+		this->guiText.setString("Finish!");
+	}
+
+	while (this->window->isOpen())
+	{
+		this->update();
+		this->render();
+	}
+	delete this->window;
+}
+
+
+
 void DialogBoxGame::renderText(sf::RenderTarget* target) // Render text
 {
 	target->draw(this->guiText); 
+	target->draw(this->buttonText);
 }
 
 void DialogBoxGame::update() // Updating

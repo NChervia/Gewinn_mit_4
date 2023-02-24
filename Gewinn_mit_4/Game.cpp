@@ -343,8 +343,10 @@ void Game::shotGame()
 
 void Game::FinishFunc()
 {
+	
 	this->guiText.setString("Finish!");
 	this->gameStep = 100;
+	
 }
 
 
@@ -375,6 +377,11 @@ void Game::run(int TypeGame, int ChipsTextyreNum)
 	{
 		this->update();
 		this->render();
+		if (this->gameStep == 105)
+		{
+			DialogBoxGame.run(1);	//Launching a Dialog Box
+			this->window->close();	// Window closing
+		}
 	}
 	this->guiText.setString(" ");
 	this->gameStep = 0;
@@ -388,6 +395,7 @@ void Game::update()
 	this->updateMousePositions();
 	this->mouseTouch();
 	if (this->gameStep < 100) this->mousePress();
+	else this->gameStep++;
 	this->updateGameMapChips();
 	this->shotGame();
 }

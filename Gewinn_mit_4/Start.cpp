@@ -218,7 +218,8 @@ void Start::secondButtonEvent()
 	}
 	else if (this->startLevel == StartButton)
 	{
-	
+		this->outTypeGame = 3;
+		this->window->close();
 	}
 }
 

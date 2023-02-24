@@ -37,6 +37,13 @@ int Server::initServer()
     return 0;
 }
 
+void Server::ServerStart()
+{
+  int result = this->initServer();
+    if (result == 0)std::cout << "Server ready!" << std::endl;
+    else std::cout << "Conect error!" << std::endl;
+}
+
 bool Server::addClient()
 {
     this->ClientSocket = accept(this->ListenSocket, NULL, NULL);
@@ -53,9 +60,7 @@ bool Server::addClient()
 
 Server::Server()
 {
-    int result = this->initServer();
-    if (result == 0)std::cout << "Server ready!" << std::endl;
-    else std::cout << "Conect error!" << std::endl;
+  
 }
 
 Server::~Server()

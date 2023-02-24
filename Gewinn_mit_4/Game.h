@@ -4,7 +4,7 @@
 #include <vector>
 #include <thread>
 #include "XO4.h"  //Game logic class
-
+#include "DialogBoxGame.h" //Dialog box class
 
 
 class Game
@@ -12,7 +12,8 @@ class Game
 private:
 
 	XO4 GameSTD; //Class initialization
-	
+	DialogBoxGame DialogBoxGame;  //Class initialization
+	//Server Server;//Class initialization
 	
 	sf::RenderWindow* window; // Create the render window
 	

@@ -18,9 +18,9 @@ private:
 	sf::Texture textureButton;
 
 
-	sf::Font inkFree; //Creating Font
-	sf::Text guiText; //Creating Text
-
+	sf::Font inkFree;    //Creating Font
+	sf::Text guiText;    //Creating Text
+	sf::Text buttonText; //Creating Text on button
 
 	sf::Sprite Screen;		// Create a sprite. Screen
 	sf::Sprite SpButton;	// Create a sprite. Button
@@ -44,6 +44,7 @@ public:
 	void pollEvents();	// Event handling
 	void mousePress();	// Handle mouse click
 	void run(); // Start the game
+	void run(int type); // Start the game with text box and text button
 
 	void renderText(sf::RenderTarget* target);	// Render text
 

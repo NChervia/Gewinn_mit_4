@@ -58,6 +58,8 @@ bool Server::addClient()
 
 void Server::ServerOut()
 {
+    int result = send(this->ClientSocket, "**/", 3, 0);
+    if (result == SOCKET_ERROR)std::cout << "Error send " << result << std::endl;
     closesocket(this->ListenSocket);
     closesocket(this->ClientSocket);
     freeaddrinfo(this->addrResult);

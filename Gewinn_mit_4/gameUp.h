@@ -2,16 +2,19 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include <thread>
 #include "DialogBoxGame.h"
 #include "XO4.h"  //Game logic 
 #include "Server.h" // Server socket class
+#include "Client.h" // Client socket class
 
 class gameUp
 {
 private:
 
-	Server Server;
-	XO4 GameSTD; //Class initialization
+	Server Server;//Class initialization
+	Client Client;//Class initialization
+	XO4 GameSTD;  //Class initialization
 	DialogBoxGame  DialogBoxGame; //Class initialization
 
 	sf::RenderWindow* window; // Create the render window
@@ -40,7 +43,7 @@ private:
 
 	std::vector <sf::Sprite> gameMapChips; // Create a vector of sprites. Chips on the game map
 	
-	int typeGame; 
+	int typeGame;  //1 - single player, 3 - server player, 4 - client player,
 
 	float ChipsCoor[50][2]; //Chips coordinates
 

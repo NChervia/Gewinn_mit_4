@@ -221,14 +221,28 @@ void gameUp::gameStepFunc()
 {
 
     int shot = mousePres();
-	if ((shot != 10)&&(this->gameStep<100))
+	if ((shot != 10)&&(this->gameStep<100)&&(this->typeGame==1))
 	{
-		if (this->gameStep % 2 == 1)this->GameSTD.shot('O', shot);
-		else this->GameSTD.shot('X', shot);
+		if (this->gameStep % 2 == 0)this->GameSTD.shot('X', shot);
+		else this->GameSTD.shot('O', shot);
 		this->gameStep++;
 		if (this->GameSTD.testFull()) this->gameFinish();
 	}
-	else if  (this->gameStep >= 100)this->gameStep++;
+	else if  ((this->gameStep >= 100) && (this->typeGame == 1))this->gameStep++;
+
+	if ((shot != 10) && (this->gameStep < 100) && (this->typeGame == 3))
+	{
+		if (this->gameStep % 2 == 0)
+		{
+			this->GameSTD.shot('X', shot);
+			this->Server.sendToClient(shot);
+		}
+		else this->GameSTD.shot('O', shot);
+		this->gameStep++;
+		if (this->GameSTD.testFull()) this->gameFinish();
+	}
+	else if ((this->gameStep >= 100) && (this->typeGame == 3))this->gameStep++;
+
 
 }
 
@@ -296,7 +310,25 @@ void gameUp::run(int TypeGame, int ChipsTextyreNum)
 	this->numTextureChipB = ChipsTextyreNum % 10;
 	this->initTextureChipsAB();// Initialize textures for chips A and B
 	this->typeGame = TypeGame;
+	 
+	 
+	if (TypeGame == 3) //Server game
+	{
+		this->Server.ServerStart(); //Server game, start server
+		std::thread Send([&]() {
+			this->Server.addClient(); //Server game, add client 
 
+			});
+		Send.detach();
+	}
+	if (TypeGame == 4) //Client game
+	{
+		std::thread AddServ([&]() {
+			this->Client.ClientStart(); //Client game, add server
+
+			});
+		AddServ.detach();
+	}
 	while (this->window->isOpen())
 	{
 		
@@ -311,6 +343,14 @@ void gameUp::run(int TypeGame, int ChipsTextyreNum)
 	this->guiText.setString(" ");
 	this->gameStep = 0;
 	this->GameSTD.newmap();
+	if (TypeGame == 3)
+	{ 
+		this->Server.ServerOut(); //Server game, turnoff server
+	}
+	if (TypeGame == 4)
+	{
+		this->Client.ClientOut(); //Client game, turnoff client 
+	}
 	delete this->window;
 }
 

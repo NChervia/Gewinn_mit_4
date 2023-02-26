@@ -25,6 +25,9 @@ public:
     Client();
     ~Client();
 
+    void ClientStart();
+    void ClientOut();
+
     void readServer();
 
     void sendToServer(int buffer);

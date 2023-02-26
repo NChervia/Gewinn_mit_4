@@ -218,6 +218,7 @@ void Start::secondButtonEvent()
 	}
 	else if (this->startLevel == StartButton)
 	{
+		this->startLevel = BeginButton;
 		this->outTypeGame = 3;
 		this->window->close();
 	}
@@ -234,6 +235,8 @@ void Start::thirdButtonEvent()
 	else if (this->startLevel == StartButton)
 	{
 		this->startLevel = BeginButton;
+		this->outTypeGame = 4;
+		this->window->close();
 	}
 }
 
@@ -279,11 +282,13 @@ int Start::run()
 	//delete this->window;
 	this->initWindow();
 	this->initVariables();
+	this->initText();
 	while (this->window->isOpen())
 	{
 	this->update();
 	this->render();
 	}
+
 	delete this->window;
 	return this->outTypeGame;
 }

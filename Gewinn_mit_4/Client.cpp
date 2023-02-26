@@ -35,21 +35,37 @@ int Client::initSocket()
 
 Client::Client()
 {
-    int result = this->initSocket();
-    if (result == 0)std::cout << "Client ready!" << std::endl;
-    else
-    {
-        std::cout << "Conect error!" << std::endl;
-        this->~Client();
-    }
+
 }
 
 Client::~Client()
 {
+
+    
+}
+
+void Client::ClientStart()
+{
+    int time = 1000;
+    while (time!=0)
+    {
+        int result = this->initSocket();
+        if (result == 0) 
+        {
+            std::cout << "Client ready!" << std::endl;
+            return;
+        }
+        time--;
+    }
+    std::cout << "Conect error!" << std::endl;
+    this->ClientOut();
+}
+
+void Client::ClientOut()
+{
     closesocket(this->ConnectSocket);
     freeaddrinfo(this->addrResult);
     WSACleanup();
-    
 }
 
 

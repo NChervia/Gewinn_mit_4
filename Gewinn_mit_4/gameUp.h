@@ -2,19 +2,24 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-
+#include "DialogBoxGame.h"
 #include "XO4.h"  //Game logic class
+#include "Server.h" // Server socket class
 
 class gameUp
 {
 private:
+
+	Server Server;
 	XO4 GameSTD; //Class initialization
+	DialogBoxGame  DialogBoxGame; //Class initialization
 
 	sf::RenderWindow* window; // Create the render window
 
 	sf::Event sfmlEvent;     // Event processing
 
 	sf::Vector2i mousePosWindow; // Global mouse position data
+	bool mousePressBool; //Mouse click data
 
 	//Creating textures
 	sf::Texture textureGameMap;
@@ -65,7 +70,8 @@ public:
 	void UpdateGameMap(); //Update game map from GameSTD class
 	void mouseTouch();	// Handle mouse touch
 	void gameStepFunc(); //Game turn
-
+	void gameFinish(); //Events after the finish
+	int mousePres(); // Handle mouse click, out num chip
 	void run(int TypeGame, int ChipsTextyreNum); // Start the game
 	
 	void renderGameMapChips(sf::RenderTarget* target);  // Render game chips

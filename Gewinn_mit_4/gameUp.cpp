@@ -13,6 +13,7 @@ void gameUp::initVariables()
 	this->gameStep = 0;
 	this->numTextureChipA = 1;
 	this->numTextureChipB = 8;
+	this->mousePressBool = false;
 }
 
 // Initialize textures
@@ -40,7 +41,7 @@ void gameUp::initTextureChipsAB()
 	case 9:	if (!this->textureChipA.loadFromFile("Texture/Chip9.png"))   std::cout << "Error Texture Chip9.png\n"; break;
 	default:if (!this->textureChipA.loadFromFile("Texture/Chip1.png"))   std::cout << "Error Texture Chip1.png\n"; break;
 	}
-
+	
 	switch (this->numTextureChipB)
 	{
 	case 1:	if (!this->textureChipB.loadFromFile("Texture/Chip1.png"))   std::cout << "Error Texture Chip1.png\n"; break;
@@ -54,6 +55,7 @@ void gameUp::initTextureChipsAB()
 	case 9:	if (!this->textureChipB.loadFromFile("Texture/Chip9.png"))   std::cout << "Error Texture Chip9.png\n"; break;
 	default: if (!this->textureChipB.loadFromFile("Texture/Chip8.png"))   std::cout << "Error Texture Chip8.png\n"; break;
 	}
+	if (this->numTextureChipB == this->numTextureChipA)this->textureChipA.setSrgb(true);
 }
 
 // Initialize sprites
@@ -131,7 +133,7 @@ void gameUp::initGameMapChips()
 
 gameUp::gameUp()
 {
-	this->initWindow();		// Initialize the render window
+	
 	this->initVariables();	// Initialize variables
 	this->initTexture();		// Initialize textures
 	this->initTextureChipsAB(); // Initialize textures for chips A and B
@@ -144,7 +146,7 @@ gameUp::gameUp()
 
 gameUp::~gameUp()
 {
-delete this->window;
+
 }
 
 // Update global mouse position data
@@ -217,8 +219,25 @@ void gameUp::mouseTouch()
 //Game turn
 void gameUp::gameStepFunc()
 {
-	if (this->gameStep % 2 == 0);
 
+    int shot = mousePres();
+	if ((shot != 10)&&(this->gameStep<100))
+	{
+		if (this->gameStep % 2 == 1)this->GameSTD.shot('O', shot);
+		else this->GameSTD.shot('X', shot);
+		this->gameStep++;
+		if (this->GameSTD.testFull()) this->gameFinish();
+	}
+	else if  (this->gameStep >= 100)this->gameStep++;
+
+}
+
+//Events after the finish
+void gameUp::gameFinish()
+{
+	this->gameStep = 100;
+	this->guiText.setString("Finish!");
+	
 }
 
 // Event handling
@@ -242,21 +261,57 @@ void gameUp::pollEvents()
 	}
 }
 
+// Handle mouse click
+int gameUp::mousePres()
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		if ((this->mousePosWindow.y > 20) && (this->mousePosWindow.y < 140) && (this->mousePressBool == false))
+		{
+			this->mousePressBool = true;
+			int tempNum = 10;
+			if (this->mousePosWindow.x > 678)    tempNum = 6;
+			else if (this->mousePosWindow.x > 565)tempNum = 5;
+			else if (this->mousePosWindow.x > 452)tempNum = 4;
+			else if (this->mousePosWindow.x > 339)tempNum = 3;
+			else if (this->mousePosWindow.x > 226)tempNum = 2;
+			else if (this->mousePosWindow.x > 113)tempNum = 1;
+			else if (this->mousePosWindow.x > 0)  tempNum = 0;
+
+			return tempNum;
+		}
+	}
+	else
+	{
+		this->mousePressBool = false;
+	}
+	return 10;
+}
+
 // Start the game
 void gameUp::run(int TypeGame, int ChipsTextyreNum)
 {
-	
+	this->initWindow();		// Initialize the render window
 	this->numTextureChipA = ChipsTextyreNum / 10;
 	this->numTextureChipB = ChipsTextyreNum % 10;
-	this->initTextureChipsAB();
+	this->initTextureChipsAB();// Initialize textures for chips A and B
 	this->typeGame = TypeGame;
 
 	while (this->window->isOpen())
 	{
+		
 		this->update();
 		this->render();
+		if (this->gameStep > 100)
+		{
+			this->DialogBoxGame.run(1);	//Launching a Dialog Box
+			this->window->close();	// Window closing
+		}
 	}
-	
+	this->guiText.setString(" ");
+	this->gameStep = 0;
+	this->GameSTD.newmap();
+	delete this->window;
 }
 
 // Render game chips

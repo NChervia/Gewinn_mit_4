@@ -9,8 +9,7 @@ void XO4::initMap()
              this->map[x][y]='*';
         }
     }
-
-     
+        
      this->GameWon[0][0] = 8; this->GameWon[0][1] = 8;
      this->GameWon[1][0] = 8; this->GameWon[1][1] = 8;
      this->GameWon[2][0] = 8; this->GameWon[2][1] = 8;

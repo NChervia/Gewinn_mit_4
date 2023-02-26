@@ -1,18 +1,20 @@
+#define WIN32_LEAN_AND_MEAN
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <Windows.h>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include "Game.h"   //Playing field class
-#include "Start.h"  //Start menu class
-#include "Option.h" //Option menu class
-//#include "DialogBoxGame.h" //Dialog box class
-#include "Server.h"
+//#include "Game.h"   //Playing field class
+//#include "Start.h"  //Start menu class
+//#include "Option.h" //Option menu class
+#include "gameUp.h"
+
 
 int main()
 {
   
-    
+    gameUp gameUp;
+    gameUp.run(0, 0);
+    /*
 
     Start start;     //Class initialization
     Game game;       //Class initialization
@@ -29,7 +31,7 @@ int main()
         else if (NextStep == 0) break; //Exit
         else break; //Exit
     }
-
+*/
     return 0;
 }
 

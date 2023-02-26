@@ -138,6 +138,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="DialogBoxGame.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="gameUp.cpp" />
     <ClCompile Include="Gewinn_mit_4.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="DialogBoxGame.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="gameUp.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Start.h" />

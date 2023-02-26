@@ -30,6 +30,7 @@ public:
 
     void ServerStart();
     bool addClient();
+    void ServerOut();
 
     void readClient();
 

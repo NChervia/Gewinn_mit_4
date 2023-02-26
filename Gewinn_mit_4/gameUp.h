@@ -2,98 +2,74 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-#include <thread>
-#include "XO4.h"  //Game logic class
-#include "DialogBoxGame.h" //Dialog box class
-#include "Server.h" // Server sockiet class
 
-class Game
+#include "XO4.h"  //Game logic class
+
+class gameUp
 {
 private:
-
 	XO4 GameSTD; //Class initialization
-	DialogBoxGame DialogBoxGame;  //Class initialization
-	Server Server;//Class initialization
-	
+
 	sf::RenderWindow* window; // Create the render window
-	
+
 	sf::Event sfmlEvent;     // Event processing
 
 	sf::Vector2i mousePosWindow; // Global mouse position data
 
-	bool mousePressBool; //Mouse click data
-	int mouseTouchBuff;  //Mouse position data, touch
-	int mousePressBuff;  //Mouse position data, press
-
-
 	//Creating textures
 	sf::Texture textureGameMap;
-	sf::Texture textureGameChipA;
-	sf::Texture textureGameChipB;
-	sf::Texture textureGameChipZero;
 	sf::Texture textureScreen;
-
-	sf::Texture textureChip1;
-	sf::Texture textureChip2;
-	sf::Texture textureChip3;
-	sf::Texture textureChip4;
-	sf::Texture textureChip5;
-	sf::Texture textureChip6;
-	sf::Texture textureChip7;
-	sf::Texture textureChip8;
-	sf::Texture textureChip9;
+	
+	sf::Texture textureChipA;
+	sf::Texture textureChipB;
 	sf::Texture textureChipZero;
-		
+
+
 	sf::Font inkFree; //Creating Font
 	sf::Text guiText; //Creating Text
 
-
 	sf::Sprite gameMap;		// Create a sprite. Game map
 	sf::Sprite Screen;		// Create a sprite. Screen
-	sf::Sprite gameChipA;	// Create a sprite. Game chip
-	sf::Sprite gameChipB;	// Create a sprite. Pointing chip
+	sf::Sprite gameChip;	// Create a sprite. Game chip
+
 
 	std::vector <sf::Sprite> gameMapChips; // Create a vector of sprites. Chips on the game map
+	
+	int typeGame; 
 
-	float chipsXY[50][2]; 
-	int gameStep;
-	int numTextureFirstChip;
-	int numTextureSecondChip;
+	float ChipsCoor[50][2]; //Chips coordinates
+
+	int gameStep; // Game step number
+
+	int numTextureChipA;  //Texture number of the first chip
+	int numTextureChipB; // Texture number of the second chip
 
 	//Private functions
 	void initWindow();		// Initialize the render window
 	void initVariables();	// Initialize variables
-	void initSprite();		// Initialize sprites
 	void initTexture();		// Initialize textures
+	void initTextureChipsAB(); // Initialize textures for chips A and B
+	void initSprite();		// Initialize sprites
 	void initFonts();		// Initialize fonts
 	void initText();		// Initialize texts
-	void initChipsXY();
-	void initGameMapChips(); 
-	void initTextureChipsAB();
-
+	void initChipsCoor();   // Initialize chips coordinates
+	void initGameMapChips();// Initialize a vector of sprites. Chips on the game map
 
 public:
 	//Constructor\Destructor
-	Game();
-	~Game();
-
-	//Functions
+	gameUp();
+	~gameUp();
+	void pollEvents();	// Event handling
 
 	void updateMousePositions(); // Update global mouse position data
-	void updateGameMapChips();
-	void pollEvents();	// Event handling
+	void UpdateGameMap(); //Update game map from GameSTD class
 	void mouseTouch();	// Handle mouse touch
-	int  mousePress();	// Handle mouse click
-	void shotGame();	
-	void FinishFunc();	// Handling the finish
+	void gameStepFunc(); //Game turn
 
 	void run(int TypeGame, int ChipsTextyreNum); // Start the game
-
-
+	
 	void renderGameMapChips(sf::RenderTarget* target);  // Render game chips
 	void renderText(sf::RenderTarget* target);			// Render text
-	 
-	
 
 	void update(); // Updating
 	void render(); // Rendering

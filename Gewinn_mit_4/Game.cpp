@@ -369,10 +369,8 @@ void Game::run(int TypeGame, int ChipsTextyreNum)
 	this->initWindow();
 	this->numTextureFirstChip = ChipsTextyreNum/10;
 	this->numTextureSecondChip = ChipsTextyreNum%10;
-	std::cout << "ChipsTextyreNum-" << ChipsTextyreNum << std::endl;
-	std::cout << "numTextureFirstChip-" << this->numTextureFirstChip << std::endl;
-	std::cout << "numTextureSecondChip-" << this->numTextureSecondChip << std::endl;
 	this->initTextureChipsAB();
+	if (TypeGame == 3) this->Server.ServerStart();
 	while (this->window->isOpen())
 	{
 		this->update();
@@ -383,6 +381,7 @@ void Game::run(int TypeGame, int ChipsTextyreNum)
 			this->window->close();	// Window closing
 		}
 	}
+	this->Server.ServerOut();
 	this->guiText.setString(" ");
 	this->gameStep = 0;
 	this->GameSTD.newmap();

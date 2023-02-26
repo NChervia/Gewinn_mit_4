@@ -56,6 +56,15 @@ bool Server::addClient()
     return true;
 }
 
+void Server::ServerOut()
+{
+    closesocket(this->ListenSocket);
+    closesocket(this->ClientSocket);
+    freeaddrinfo(this->addrResult);
+    WSACleanup();
+    std::cout << "The End" << std::endl;
+}
+
 
 
 Server::Server()
@@ -65,11 +74,7 @@ Server::Server()
 
 Server::~Server()
 {
-    closesocket(this->ListenSocket);
-    closesocket(this->ClientSocket);
-    freeaddrinfo(this->addrResult);
-    WSACleanup();
-    std::cout << "The End" << std::endl;
+    
 }
 
 

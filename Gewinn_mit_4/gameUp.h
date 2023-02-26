@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "DialogBoxGame.h"
-#include "XO4.h"  //Game logic class
+#include "XO4.h"  //Game logic 
 #include "Server.h" // Server socket class
 
 class gameUp

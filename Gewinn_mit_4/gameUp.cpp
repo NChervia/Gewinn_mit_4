@@ -14,6 +14,10 @@ void gameUp::initVariables()
 	this->numTextureChipA = 1;
 	this->numTextureChipB = 8;
 	this->mousePressBool = false;
+	for (int i = 0; i < 99; i++)
+	{
+		this->ListGameSteps[i]=-1;
+	}
 }
 
 // Initialize textures
@@ -220,35 +224,67 @@ void gameUp::mouseTouch()
 void gameUp::gameStepFunc()
 {
 
-    int shot = mousePres();
-	if ((shot != 10)&&(this->gameStep<100)&&(this->typeGame==1))
+	int shot = mousePres();
+	if ((shot != 10) && (this->gameStep < 100) && (this->typeGame == 1))
 	{
 		if (this->gameStep % 2 == 0)this->GameSTD.shot('X', shot);
 		else this->GameSTD.shot('O', shot);
 		this->gameStep++;
 		if (this->GameSTD.testFull()) this->gameFinish();
 	}
-	else if  ((this->gameStep >= 100) && (this->typeGame == 1))this->gameStep++;
+	else if ((this->gameStep >= 100) && (this->typeGame == 1))this->gameStep++;
 
-	if ((shot != 10) && (this->gameStep < 100) && (this->typeGame == 3))
+
+	if ((this->gameStep < 100) && (this->typeGame == 3))
 	{
-		if (this->gameStep % 2 == 0)
+
+		if ((this->gameStep % 2 == 0) && (shot != 10))
 		{
 			this->GameSTD.shot('X', shot);
 			this->Server.sendToClient(shot);
+			this->gameStep++;
+
 		}
-		else this->GameSTD.shot('O', shot);
-		this->gameStep++;
+		if ((this->gameStep % 2 != 0) && (this->ListGameSteps[gameStep] != -1))
+		{
+
+			this->GameSTD.shot('O', this->ListGameSteps[gameStep]);
+			this->gameStep++;
+
+		}
 		if (this->GameSTD.testFull()) this->gameFinish();
 	}
-	else if ((this->gameStep >= 100) && (this->typeGame == 3))this->gameStep++;
 
+
+	if ((this->gameStep < 100) && (this->typeGame == 4))
+	{
+		if ((this->gameStep % 2 == 0) && (this->ListGameSteps[gameStep] != -1))
+		{
+
+			this->GameSTD.shot('X', this->ListGameSteps[gameStep]);
+			this->gameStep++;
+
+		}
+		if ((this->gameStep % 2 != 0) && (shot != 10))
+		{
+			this->GameSTD.shot('O', shot);
+
+			this->Client.sendToServer(shot);
+			this->gameStep++;
+
+		}
+		if (this->GameSTD.testFull()) this->gameFinish();
+	}
+
+	
 
 }
 
 //Events after the finish
 void gameUp::gameFinish()
 {
+	this->UpdateGameMap();
+	this->render();
 	this->gameStep = 100;
 	this->guiText.setString("Finish!");
 	
@@ -316,25 +352,72 @@ void gameUp::run(int TypeGame, int ChipsTextyreNum)
 	{
 		this->Server.ServerStart(); //Server game, start server
 		std::thread Send([&]() {
+			this->gameStep = -1;
 			this->Server.addClient(); //Server game, add client 
+			this->DialogBoxGame.ExitDB();
+			this->gameStep = 0;
+			int counterStep = 1;
+			while (true)
+			{
+				
+				int temp = this->Server.readClient();
+				if (temp < 99)
+				{
+					 this->ListGameSteps[counterStep]= temp;
+					 counterStep++;
+					 counterStep++;
+				}
+				else {
+					break;
+					std::cout << "Connection closed" << std::endl;
+				}
+			}
 
 			});
+		
 		Send.detach();
+	
 	}
 	if (TypeGame == 4) //Client game
 	{
 		std::thread AddServ([&]() {
+			this->gameStep = -1;
 			this->Client.ClientStart(); //Client game, add server
+			this->gameStep = 0;
+			int counterStep = 0;
+			while (true)
+			{
+				
+				int temp = this->Client.readServer();
+				if (temp < 99)
+				{
+					this->ListGameSteps[counterStep] = temp;
+					counterStep++;
+					counterStep++;
+				}
+				else {
+					break;
+					std::cout << "Connection closed" << std::endl;
+				}
+			}
 
 			});
 		AddServ.detach();
+
 	}
+
+
+
+
+
 	while (this->window->isOpen())
 	{
 		
 		this->update();
 		this->render();
-		if (this->gameStep > 100)
+
+		if (this->gameStep = -1)this->DialogBoxGame.run(2);
+		if (this->gameStep >= 100)
 		{
 			this->DialogBoxGame.run(1);	//Launching a Dialog Box
 			this->window->close();	// Window closing
@@ -346,10 +429,18 @@ void gameUp::run(int TypeGame, int ChipsTextyreNum)
 	if (TypeGame == 3)
 	{ 
 		this->Server.ServerOut(); //Server game, turnoff server
+		for (int i = 0; i < 99; i++)
+		{
+			this->ListGameSteps[i] = -1;
+		}
 	}
 	if (TypeGame == 4)
 	{
 		this->Client.ClientOut(); //Client game, turnoff client 
+		for (int i = 0; i < 99; i++)
+		{
+			this->ListGameSteps[i] = -1;
+		}
 	}
 	delete this->window;
 }

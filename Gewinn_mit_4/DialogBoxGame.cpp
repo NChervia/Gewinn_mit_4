@@ -93,7 +93,7 @@ void DialogBoxGame::mousePress()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if ((this->mousePosWindow.y > 90) && (this->mousePosWindow.y < 170) && (this->mousePosWindow.x > 75) && (this->mousePosWindow.x < 320))
+		if ((this->mousePosWindow.y > 90) && (this->mousePosWindow.y < 170) && (this->mousePosWindow.x > 75) && (this->mousePosWindow.x < 320)&&(this->TypeDB!=2))
 		{
 			this->window->close();
 		}
@@ -119,6 +119,12 @@ void DialogBoxGame::run(int type)
 	{
 		this->guiText.setString("Finish!");
 	}
+	else if (type == 2)
+	{
+		this->TypeDB = 2;
+		this->guiText.setString("Conect...");
+	}
+	
 
 	while (this->window->isOpen())
 	{
@@ -126,6 +132,12 @@ void DialogBoxGame::run(int type)
 		this->render();
 	}
 	delete this->window;
+}
+
+void DialogBoxGame::ExitDB()
+{
+	this->TypeDB = 0;
+	this->window->close();
 }
 
 

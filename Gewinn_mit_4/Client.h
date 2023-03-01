@@ -28,7 +28,7 @@ public:
     void ClientStart();
     void ClientOut();
 
-    void readServer();
+    int readServer();
 
     void sendToServer(int buffer);
 };

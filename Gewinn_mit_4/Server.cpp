@@ -81,7 +81,7 @@ Server::~Server()
 
 
 
-void Server::readClient()
+int Server::readClient()
 {
     int result = 0;
     char Buffer[512];
@@ -91,18 +91,21 @@ void Server::readClient()
         result = recv(this->ClientSocket, Buffer, 512, 0);
         if (result > 0)
         {
-            std::cout << "Received date:  " << Buffer << std::endl;
-            return;
+            if ((Buffer[0] == '*') && (Buffer[1] == '*')&& (Buffer[2] != '/'))
+            {
+                return Buffer[2] - '1';
+            }
+            return 103;
         }
         else if (result == 0)
         {
             std::cout << "Connection closed" << std::endl;
-            return;
+            return 101;
         }
         else
         {
             std::cout << "Error recv" << std::endl;
-            return;
+            return 102;
         }
     }
 }

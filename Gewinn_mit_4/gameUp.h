@@ -48,7 +48,7 @@ private:
 	float ChipsCoor[50][2]; //Chips coordinates
 
 	int gameStep; // Game step number
-
+	int ListGameSteps[99]; //List of game steps
 	int numTextureChipA;  //Texture number of the first chip
 	int numTextureChipB; // Texture number of the second chip
 

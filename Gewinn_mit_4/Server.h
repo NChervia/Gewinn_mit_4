@@ -32,8 +32,8 @@ public:
     bool addClient();
     void ServerOut();
 
-    void readClient();
-
+    //void readClient();
+    int readClient(); 
     void sendToClient(int buffer);
 };
 

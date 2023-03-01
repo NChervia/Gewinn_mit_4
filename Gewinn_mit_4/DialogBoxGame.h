@@ -24,7 +24,7 @@ private:
 
 	sf::Sprite Screen;		// Create a sprite. Screen
 	sf::Sprite SpButton;	// Create a sprite. Button
-
+	int TypeDB = 0;
 
 	//Private functions
 	void initWindow();		// Initialize the render window
@@ -45,7 +45,7 @@ public:
 	void mousePress();	// Handle mouse click
 	void run(); // Start the game
 	void run(int type); // Start the game with text box and text button
-
+	void ExitDB();
 	void renderText(sf::RenderTarget* target);	// Render text
 
 	void update(); // Updating
